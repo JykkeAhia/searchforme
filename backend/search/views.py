@@ -13,6 +13,8 @@ from rest_framework.renderers import JSONRenderer
 
 # https://github.com/HackSoftware/Django-Styleguide#class-based-vs-function-based
 
+# TODO add history of events on certain search type 
+
 
 class SearchCarPriceView(viewsets.ModelViewSet):
     serializer_class = our_serializers.SearchCarPriceSerializer
