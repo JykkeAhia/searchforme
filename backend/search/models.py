@@ -9,6 +9,8 @@ class Search(models.Model):
     create_datetime = models.DateTimeField(auto_now_add=True)
     script = models.CharField(max_length=24)
 
+    # https://web3usecase.co/improving-your-django-model-design-2b3158ad10df
+
     # json search parameters?? example {model: string, priceMax: integer}
     # nämä luodaan adminissa eikä niitä ole tarkoitus vaihtaa luonnin jälkeen
     # json search parameter values?
@@ -28,9 +30,9 @@ class SearchCarPrice(Search):
 
     def clean(self):
         # TODO super().clean()
-        if self.parameter_model.length < 1:
+        if len(self.parameter_model) < 1:
             raise ValidationError(_("Car model must be at least 1 char long"))
-        if self.parameter_make.length < 2:
+        if len(self.parameter_make) < 2:
             raise ValidationError(_("Car make must be at least 2 char long"))
 
 

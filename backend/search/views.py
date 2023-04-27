@@ -7,8 +7,11 @@ from search import serializers as our_serializers
 from django.views.decorators.http import require_GET
 from search import searches
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer
+
+
+# https://github.com/HackSoftware/Django-Styleguide#class-based-vs-function-based
 
 
 class SearchCarPriceView(viewsets.ModelViewSet):
@@ -39,11 +42,11 @@ class CreateSearchCarPriceApi(APIView):
 
 
 @api_view(('GET',))
+# @renderer_classes((JSONRenderer))
 def runSearch(request):
-    ''' Will run all kinda Searches and depending on the Search will
-    write data to Event Source DB in a JSON field'''
+    ''' Will run all kinda Searches and depending on the Search will write data to Event Source DB in a JSON field'''
     if 'search_id' not in request.GET:
-        return Response("Search id not provided", status=status.HTTP_400_BAD_REQUEST)
+        return Response("search_id not provided", status=status.HTTP_400_BAD_REQUEST)
 
     # TODO try catch
     search = models.Search.objects.get(id=request.GET['search_id'])
