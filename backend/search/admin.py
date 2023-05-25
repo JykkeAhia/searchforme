@@ -7,6 +7,7 @@ class SearchCarPriceAdmin(admin.ModelAdmin):
         'create_datetime',
         'title',
         'script',
+       #'description',
         'parameter_model',
         'parameter_make',
     )

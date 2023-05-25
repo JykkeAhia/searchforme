@@ -20,10 +20,15 @@ from rest_framework import routers
 from search import views
 
 router = routers.DefaultRouter()
-router.register(r'searches', views.SearchCarPriceView, 'search')
+router.register(r'searchcarprice', views.SearchCarPriceView, 'search-car-price')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('runsearch/', views.runSearch, name='action-run-search'),
 ]
+
+# TODO miten frontti tietää mitä hakuja meillä on listattavaksi drop down valikkoon?
+# jotenkin sen pitää osata hakea kaikki api/search alla olevat mahdollisuudet options
+# ja kysyä mitä dataa tarvitaan sen luomiseen
+# ja esittää ne boxit sitten dynaamisesti

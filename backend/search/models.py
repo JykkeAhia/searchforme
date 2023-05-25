@@ -8,6 +8,7 @@ class Search(models.Model):
     # tallentaa kun luodaan ekan kerran
     create_datetime = models.DateTimeField(auto_now_add=True)
     script = models.CharField(max_length=24)
+    # description = models.TextField(max_length=255)
 
     # https://web3usecase.co/improving-your-django-model-design-2b3158ad10df
 
@@ -45,7 +46,9 @@ class SearchEvent(models.Model):
     search = models.ForeignKey(Search, on_delete=models.CASCADE)
     create_datetime = models.DateTimeField(auto_now_add=True)
     event_type = models.CharField(max_length=20)
+    # we use jsonfield for searched data
     data = models.JSONField(null=True)
+    # TODO esimerkki json tiedoston sisällöstä
     # json is used since we can have multiple search results parameters
     # we like to save and we don't know what they all are
 

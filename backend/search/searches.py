@@ -42,6 +42,11 @@ def SearchWebShopScript(search: models.SearchWebShop) -> str:
     # selenium jotain
     # kirjoita kantaan niitä eventtejä
 
+    # 1. tee haku
+    # 2. tallenna SearchEventti kantaan 
+    # 3. laita datat jsonfieldiin
+    # 4. palauta eventti jossa data siis mukana
+
     event = "tosiasiassa tässä palautetaan se eventti F parameters tulos"
 
     return event
