@@ -1,0 +1,57 @@
+{
+    "name": "Search Car Price List",
+    "description": "",
+    "renders": [
+        "application/json",
+        "text/html"
+    ],
+    "parses": [
+        "application/json",
+        "application/x-www-form-urlencoded",
+        "multipart/form-data"
+    ],
+    "actions": {
+        "POST": {
+            "id": {
+                "type": "integer",
+                "required": false,
+                "read_only": true,
+                "label": "ID"
+            },
+            "title": {
+                "type": "string",
+                "required": true,
+                "read_only": false,
+                "label": "Title",
+                "max_length": 120
+            },
+            "create_datetime": {
+                "type": "datetime",
+                "required": false,
+                "read_only": true,
+                "label": "Create datetime"
+            },
+            "script": {
+                "type": "string",
+                "required": true,
+                "read_only": false,
+                "label": "Script",
+                "max_length": 24
+            },
+            "parameter_model": {
+                "type": "string",
+                "required": true,
+                "read_only": false,
+                "label": "Parameter model",
+                "max_length": 256
+            },
+            "parameter_make": {
+                "type": "string",
+                "required": true,
+                "read_only": false,
+                "label": "Parameter make",
+                "max_length": 256
+            }
+        }
+    }
+}
