@@ -47,7 +47,7 @@ def SearchWebShopScript(search: models.SearchWebShop) -> str:
     # 3. laita datat jsonfieldiin
     # 4. palauta eventti jossa data siis mukana
 
-    event = "tosiasiassa tässä palautetaan se eventti F parameters tulos"
+    event = "tosiasiassa tässä palautetaan se eventti F webshopsearch parameters tulos"
 
     return event
 

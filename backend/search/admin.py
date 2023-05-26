@@ -7,12 +7,20 @@ class SearchCarPriceAdmin(admin.ModelAdmin):
         'create_datetime',
         'title',
         'script',
-       #'description',
         'parameter_model',
         'parameter_make',
     )
 
 
-# TODO tee searchwebshopadmin
+class SearchWebShopAdmin(admin.ModelAdmin):
+    list_display = (
+        'create_datetime',
+        'title',
+        'script',
+        'search_string',
+        'search_max_price',
+    )
 
+
+admin.site.register(models.SearchWebShop, SearchWebShopAdmin)
 admin.site.register(models.SearchCarPrice, SearchCarPriceAdmin)

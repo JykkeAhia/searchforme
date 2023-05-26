@@ -20,6 +20,11 @@ class SearchCarPriceView(viewsets.ModelViewSet):
     queryset = models.SearchCarPrice.objects.all()
 
 
+class SearchWebShopView(viewsets.ModelViewSet):
+    serializer_class = our_serializers.SearchWebShopSerializer
+    queryset = models.SearchWebShop.objects.all()
+
+
 @api_view(['GET'])
 def searchOptions(request):
     my_dict = {

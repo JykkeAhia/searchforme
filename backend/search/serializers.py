@@ -14,4 +14,16 @@ class SearchCarPriceSerializer(serializers.ModelSerializer):
             'parameter_make',
         )
 
-# TODO tee searachWebshopserializer
+
+class SearchWebShopSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SearchWebShop
+        fields = (
+            'id',
+            'title',
+            'create_datetime',
+            'script',
+            'search_string',
+            'search_max_price',
+        )
+
