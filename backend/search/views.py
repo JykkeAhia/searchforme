@@ -11,20 +11,25 @@ from rest_framework.decorators import api_view
 
 # TODO add history of events on certain search type 
 
-# YES how to get api endpoint parameters information to for react etc frontend
-# http://127.0.0.1:8000/api/searchcarprice/?format=json
-'''
-{"name":"Search Car Price List","description":"","renders":["application/json","text/html"],"parses":["application/json","application/x-www-form-urlencoded","multipart/form-data"],"actions":{"POST":{"id":{"type":"integer","required":false,"read_only":true,"label":"ID"},"title":{"type":"string","required":true,"read_only":false,"label":"Title","max_length":120},"create_datetime":{"type":"datetime","required":false,"read_only":true,"label":"Create datetime"},"script":{"type":"string","required":true,"read_only":false,"label":"Script","max_length":24},"parameter_model":{"type":"string","required":true,"read_only":false,"label":"Parameter model","max_length":256},"parameter_make":{"type":"string","required":true,"read_only":false,"label":"Parameter make","max_length":256}}}}
-'''
 
-# TODO pitää voida kysyä mitä searchejä on olemassa 
 # bitcoin tms. search jotta saadaan vaikka minuutin välein päivittyvä data
+
 
 class SearchCarPriceView(viewsets.ModelViewSet):
     serializer_class = our_serializers.SearchCarPriceSerializer
     queryset = models.SearchCarPrice.objects.all()
 
 
+@api_view(['GET'])
+def searchOptions(request):
+    my_dict = {
+        'searchcarprice': 'Search for car price',
+        'searchwebshop': 'Search web shop',
+    }
+    return Response(my_dict, status=status.HTTP_200_OK)
+
+
+# TODO ota tälläinen oma käyttöön jossain esimerkin vuoksi
 class CreateSearchCarPriceApi(APIView):
     ''' Uusia hakuja voidaan luoda mutta niitä ei koskaan päivitetä, koska tarkoitus on kerätä hakujen datan muutoksia'''
     class InputSerializer(serializers.Serializer):

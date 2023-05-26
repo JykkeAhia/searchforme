@@ -21,11 +21,13 @@ from search import views
 
 router = routers.DefaultRouter()
 router.register(r'searchcarprice', views.SearchCarPriceView, 'search-car-price')
+# router.register(r'searchwebshop', views.SearchWebShopView, 'search-car-price')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('runsearch/', views.runSearch, name='action-run-search'),
+    path('api/searches/', views.searchOptions, name='search-options'),
 ]
 
 # TODO miten frontti tietää mitä hakuja meillä on listattavaksi drop down valikkoon?

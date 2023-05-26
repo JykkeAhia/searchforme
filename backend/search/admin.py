@@ -13,4 +13,6 @@ class SearchCarPriceAdmin(admin.ModelAdmin):
     )
 
 
+# TODO tee searchwebshopadmin
+
 admin.site.register(models.SearchCarPrice, SearchCarPriceAdmin)

@@ -55,6 +55,6 @@ def SearchWebShopScript(search: models.SearchWebShop) -> str:
 # the key should match the script in the Search object
 # TODO these must be sent to front end as key value pair json
 usable_search_functions = {
-    'search_car_price': SearchCarPriceScript,
-    'search_web_shop': SearchWebShopScript,
+    'searchcarprice': SearchCarPriceScript,
+    'searchwebshop': SearchWebShopScript,
 }

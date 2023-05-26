@@ -13,3 +13,5 @@ class SearchCarPriceSerializer(serializers.ModelSerializer):
             'parameter_model',
             'parameter_make',
         )
+
+# TODO tee searachWebshopserializer
