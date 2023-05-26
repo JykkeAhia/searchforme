@@ -1,6 +1,10 @@
-// import logo from './logo.svg';
 import './App.css';
-import DynamicFormComponent from './components/dynamicSearchForm'
+
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+
+import HomePage from './pages/HomePage';
+import SearchPage from './pages/SearchPage';
 
 /* TODO
  1. systeemin pääsivulla on seuraavia ominaisuuksia:
@@ -20,12 +24,30 @@ import DynamicFormComponent from './components/dynamicSearchForm'
 
 function App() {
   return (
-    <div className="App">
+    <Router>
+      <div className="App">
       <header className="TODO">        
         <p>Search For Me</p>
       </header>
-      <DynamicFormComponent />
-    </div>
+      </div>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/search">Search</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Routes>
+          <Route path="/" exact element={<HomePage />} />
+          <Route path="/search" element={<SearchPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
