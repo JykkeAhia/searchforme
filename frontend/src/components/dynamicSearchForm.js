@@ -25,7 +25,6 @@ const DynamicFormComponent = () => {
     if (script !== undefined) {
       try {
         const response = await fetch(`http://127.0.0.1:8000/api/${script}/?format=json`, {
-        // const response = await fetch(`http://127.0.0.1:8000/api/searchcarprice/?format=json`, {  
           method: "OPTIONS",
         });
         const jsonData = await response.json();
@@ -67,7 +66,7 @@ const DynamicFormComponent = () => {
       // or clear the form since searches are immutable
     } catch (error) {
       console.error(error);
-      // TODO display errors in the form 
+      // TODO display errors in the form or somewhere
     }
   };
 
@@ -91,7 +90,7 @@ const DynamicFormComponent = () => {
             // console.log(option[0]);
             // console.log(option[1].type);
             
-            // todo required true
+            // todo required true from options data
             if (option[1].type === 'string' && option[1].label !== 'Script') {
               return (
                 <div key={option[0]}>

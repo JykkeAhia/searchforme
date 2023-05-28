@@ -28,6 +28,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('runsearch/', views.runSearch, name='action-run-search'),
     path('api/searches/', views.searchOptions, name='search-options'),
+    path('api/allsavedsearches/', views.allSavedSearches, name='all-saved-searches'),
 ]
 
 # TODO miten frontti tietää mitä hakuja meillä on listattavaksi drop down valikkoon?
