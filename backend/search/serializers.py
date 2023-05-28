@@ -10,6 +10,7 @@ class SearchCarPriceSerializer(serializers.ModelSerializer):
             'title',
             'create_datetime',
             'script',
+            # 'has_searchevent',
             'parameter_model',
             'parameter_make',
         )
@@ -23,7 +24,7 @@ class SearchWebShopSerializer(serializers.ModelSerializer):
             'title',
             'create_datetime',
             'script',
+            # 'has_searchevent',
             'search_string',
             'search_max_price',
         )
-

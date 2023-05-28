@@ -26,7 +26,7 @@ router.register(r'searchwebshop', views.SearchWebShopView, 'search-web-shop')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('runsearch/', views.runSearch, name='action-run-search'),
+    path('api/runsearch/', views.runSearch, name='action-run-search'),
     path('api/searches/', views.searchOptions, name='search-options'),
     path('api/allsavedsearches/', views.allSavedSearches, name='all-saved-searches'),
 ]

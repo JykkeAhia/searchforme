@@ -111,24 +111,36 @@ const SearchListComponent = () => {
     // TODO siirretään contextiin ja lisäksi pitää tallentaa eri hakujen nimen alle optionssien tiedot 
     const fetchOptions = async (script) => {
         if (script !== undefined) {
-          try {
+            try {
             const response = await fetch(`http://127.0.0.1:8000/api/${script}/?format=json`, {
-              method: "OPTIONS",
+                method: "OPTIONS",
             });
             const jsonData = await response.json();
             setOptions((prevState) => ({
-               ...prevState, [script]: jsonData.actions.POST
+                ...prevState, [script]: jsonData.actions.POST // TODO niin helpottuu Object.entries(jsonData.actions.POST);
             }));
             // console.log(jsonData.actions.POST);
             return jsonData.actions.POST;
-          } catch (error) {
+            } catch (error) {
             console.error('Error fetching data:', error);
-          }
+            }
         }
-      };
+    };
+        
+    const runSearch = async (id) => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/api/runsearch/?search_id=${id}`);
+            // setSearches({searches: response.data});
+            console.log(response.data);
+            // TODO xstatelle tässä viesti, että search for search id on päällä
+        } catch (error) {
+            console.error(error);
+            // TODO search id on errorissa ja error viesti
+        } 
+    };
 
-    // TODO options jutusta haettava labelit ja muuttujien tietoja muita jos haluaa
-    // miten tämä tehdään? oma funkkari jolla luodaan muuttujat? 
+    // TODO 1. muuta options taulukoksi?? niin se toimii nätimmin
+    // TODO 2. mihin search tulokset varmaan oma sivu??
 
     return (
         <>
@@ -142,20 +154,28 @@ const SearchListComponent = () => {
                                 { JSON.stringify(searches.searches[key].saved_searches) }
                                 
                                 {Object.values(searches.searches[key].saved_searches).map(search => {
+                                    let has_searchevent = false;
+                                    if (search.has_searchevent === true) has_searchevent = true;
                                     return (
                                         <div>
                                             <ul>
-                                                <li key={search.id}>Search ID : {search.id}</li>
-                                                <li key={search.script}>Script: {search.script}</li>
+                                                <li key={search.id}>TODO poista Search ID : {search.id}</li>
+                                                <li key={search.script}>TODO tääkin vois tulla suoraan Script: {search.script}</li>
                                                 {Object.keys(options[key]).map((searchParameter, index2) => {
-                                                    if(searchParameter !== 'id' && searchParameter !== 'script') {
+                                                    if(searchParameter !== 'id' && searchParameter !== 'script' && searchParameter !== 'has_searchevent') {
                                                         return (
                                                           <li key={searchParameter+"_"+index2}>{Object.values(options[key][searchParameter].label)} : {search[searchParameter]}</li>
                                                         )
-                                                    }
+                                                    } 
                                                     return ( <></> )
                                                 })}
                                             </ul>
+                                            <button onClick={() => runSearch(search.id)}>Start search</button>
+                                            {has_searchevent ? (
+                                                <button onClick={() => console.log(search.id)}>There are results</button>
+                                            ) : ( 
+                                                <p>No results yet.</p>
+                                            )}
                                         </div>
                                     )
                                 })}

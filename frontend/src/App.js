@@ -27,7 +27,7 @@ function App() {
     <Router>
       <div className="App">
       <header className="TODO">        
-        <p>Search For Me</p>
+        <h1>Search For Me</h1>
       </header>
       </div>
       <div>

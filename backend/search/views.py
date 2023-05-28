@@ -1,6 +1,7 @@
 from search import models
 import logging
 from django.apps import apps
+from django.db.models import Case, When, BooleanField
 from rest_framework import viewsets, serializers, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,11 +14,8 @@ logger = logging.getLogger(__name__)
 
 # https://github.com/HackSoftware/Django-Styleguide#class-based-vs-function-based
 
-# TODO add history of events on certain search type 
-
-
 # bitcoin tms. search jotta saadaan vaikka minuutin välein päivittyvä data
-# TODO add logging to all api calls or is there allready?? manipulate it in some nice way
+
 
 class SearchCarPriceView(viewsets.ModelViewSet):
     serializer_class = our_serializers.SearchCarPriceSerializer
@@ -28,9 +26,11 @@ class SearchWebShopView(viewsets.ModelViewSet):
     serializer_class = our_serializers.SearchWebShopSerializer
     queryset = models.SearchWebShop.objects.all()
 
+
 # Tämä poistetan ja käytetään alempaa ehkä
 @api_view(['GET'])
 def searchOptions(request):
+    ''' FIXME and use internationalization '''
     my_dict = {
         'searchcarprice': 'Search for car price',
         'searchwebshop': 'Search web shop',
@@ -40,6 +40,7 @@ def searchOptions(request):
 
 @api_view(['GET'])
 def allSavedSearches(request):
+    ''' Get all created searches for UI '''
     dict_to_send = {}
 
     for search_type, search_script_name in searches.usable_search_functions.items():
@@ -50,7 +51,6 @@ def allSavedSearches(request):
         searches_tmp = get_objects_by_model(search_model)
         logger.info(searches_tmp)
 
-        # TODO korjaa että tähän laitetaan se teksti mitä tarvitaan
         dict_tmp = {
             "script_function": search_script_name.__name__,
             "saved_searches": searches_tmp.values(),
@@ -59,24 +59,25 @@ def allSavedSearches(request):
 
         dict_to_send[search_type] = dict_tmp
 
-    '''
-    my_dict = {
-        {'seawrchcarprice': 'SearchCarPrice', [list of seearches for this]}
-        {...}
-    }
-    '''
     return Response(dict_to_send, status=status.HTTP_200_OK)
 
 
 # lets get dynamically some models from the database note app_label means the app that is set in settings
 def get_objects_by_model(model_name):
+    ''' We need to get the search Models like this since we don't know what scripts there are '''
     Model = apps.get_model(app_label='search', model_name=model_name)
     if Model:
-        return Model.objects.all()
+        # Note that this is complex at the moment we have event based saves in the Java service and normal ones at the same time
+        # Se we need somekinda miniservice to find this out?
+        return Model.objects.annotate(has_searchevent=Case(
+            When(searchevent__isnull=False, then=True),
+            default=False,
+            output_field=BooleanField()
+        ))
     return None
 
 
-# TODO ota tälläinen oma käyttöön jossain esimerkin vuoksi
+# NICE ota tälläinen oma käyttöön jossain esimerkin vuoksi
 class CreateSearchCarPriceApi(APIView):
     ''' Uusia hakuja voidaan luoda mutta niitä ei koskaan päivitetä, koska tarkoitus on kerätä hakujen datan muutoksia'''
     class InputSerializer(serializers.Serializer):
@@ -91,8 +92,6 @@ class CreateSearchCarPriceApi(APIView):
             search = models.SearchCarPrice(**serializer.validated_data)
             search.full_clean()
             search.save()
-
-            # TODO run search vai ajo erikseen joo
             return Response(status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -101,19 +100,20 @@ class CreateSearchCarPriceApi(APIView):
 @api_view(('GET',))
 # @renderer_classes((JSONRenderer))
 def runSearch(request):
-    ''' Will run all kinda Searches and depending on the Search will write data to Events in a JSON field as key value pairs'''
+    ''' Will run all kinda Searches and depending on the Search will write data to Events in a JSON field as key value pairs
+        or if chosen to java event sourcing service
+    '''
     if 'search_id' not in request.GET:
         return Response("search_id not provided", status=status.HTTP_400_BAD_REQUEST)
+
     # TODO add search type (single time or multiple times -> leads to event sourcing results)
     # TODO if 'search_type' not in request.GET:
     #   return Response("search_type not provided", status=status.HTTP_400_BAD_REQUEST)
-            
+    # Also add time interval for search celery task time settings
+
     # TODO try catch
     search = models.Search.objects.get(id=request.GET['search_id'])
 
-    # kutsutaan oikea Search scripti ja annetaan sille Search
-    # (se osaa ottaa sieltä alaluokan ja yläluokan parametrit)
     search_event = searches.usable_search_functions[search.script](search)
-    # TODO search_event serialization
-    # celery delay todo em.
+
     return Response(search_event, status=status.HTTP_201_CREATED)

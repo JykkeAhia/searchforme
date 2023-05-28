@@ -43,14 +43,11 @@ class SearchWebShop(Search):
 
 
 class SearchEvent(models.Model):
+    ''' We use jsonfield for search results since we don't know what results new scripts might have '''
     search = models.ForeignKey(Search, on_delete=models.CASCADE)
     create_datetime = models.DateTimeField(auto_now_add=True)
     event_type = models.CharField(max_length=20)
-    # we use jsonfield for searched data
     data = models.JSONField(null=True)
-    # TODO esimerkki json tiedoston sisällöstä
-    # json is used since we can have multiple search results parameters
-    # we like to save and we don't know what they all are
 
     def __str__(self):
         return F"Search: {self.search.__str__} EventType: {self.event_type}"

@@ -5,7 +5,8 @@ import SearchList from '../components/SearchList'
 const SearchPage = () => {
   return (
     <div>
-      <h1>Search Page</h1>
+      <h2>Search Page</h2>
+      <p>Create a new search by selecting a script. TODO siirrä Contextiin jotta näkyy kun tehty.</p>
       <DynamicFormComponent />
       <SearchList />
     </div>
