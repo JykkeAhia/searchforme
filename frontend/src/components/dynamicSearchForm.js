@@ -41,10 +41,10 @@ const DynamicFormComponent = () => {
     const { name, value } = event.target;
     if (value === "") return;
     setScript(value);
-    console.info("script value changed named: "+name);
+    console.info("script value changed named: "+name+" value: "+value);
     handleChange(event);
     fetchOptions(value);
-    // when script is changed should we clear the formData?
+    // TODO when script is changed should we clear the formData?
   };
 
   const handleChange = (event) => {
@@ -57,7 +57,7 @@ const DynamicFormComponent = () => {
     event.preventDefault();
     // TODO validate by options in form or here
     // Send form data to Django REST Framework endpoint
-    // POST to http://127.0.0.1:8000/api/searchcarprice/
+    // POST to http://127.0.0.1:8000/api/searchcarprice/ or similar depending on the script used
     console.info(formData);
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/${script}/`, formData);

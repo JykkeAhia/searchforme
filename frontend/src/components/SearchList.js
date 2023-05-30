@@ -39,7 +39,7 @@ const SearchListComponent = () => {
                     ...prevState, 
                     [script]: postData,
                 }));
-                console.log(postData);
+                // console.log(postData);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -63,27 +63,27 @@ const SearchListComponent = () => {
            <h2>Searches</h2>
            {searches.searches && options ? (
                 <div>
-                    {Object.keys(searches.searches).map((searchname, index) => {
+                    {Object.keys(searches.searches).map((searchname, index2) => {
                         return (
-                            <div>
-                                <h3 key={index}>{searchname}</h3>
-                                { JSON.stringify(searches.searches[searchname].saved_searches) }
+                            <div key={searchname}>
+                                <h3 key={`${index2}_${searchname}`}>{searchname}</h3>
+                                { /* JSON.stringify(searches.searches[searchname].saved_searches) */ }
                                 
                                 {Object.values(searches.searches[searchname].saved_searches).map(search => {
                                     let has_searchevent = false;
                                     if (search.has_searchevent === true) has_searchevent = true;
                                     return (
-                                        <div>
-                                            <ul>
-                                                {console.log("avain2 "+searchname)}
-                                                {console.log((options[searchname]))}
+                                        <div key={search.id+"_"+search.title}>
+                                            <ul key={searchname+"_"+search.id}>
+                                                { /* console.log("avain2 "+searchname) */ }
+                                                { /* console.log((options[searchname])) */}
 
                                                 {Object.entries(options).map(([key, value]) => {
                                                     if(searchname === key) 
                                                         return (
-                                                            <div>
+                                                            <div key={searchname+"_"+key}>
                                                                 {value.map(([prop, propData], index) => (
-                                                                    <li name="property" id={index+"_"+prop}>
+                                                                    <li name="property" key={key+"_"+index+"_"+prop} id={index+"_"+prop}>
                                                                         {propData.label} : {search[prop]}
                                                                     </li>
                                                                 ))}
