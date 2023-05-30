@@ -1,2 +1,11 @@
-# Tästä lähdettiin tekemään bäkkäriä
-# -> https://www.digitalocean.com/community/tutorials/build-a-to-do-application-using-django-and-react
+Pre:
+1. Dockerd must be running
+2. git pull
+
+1. build docker image
+docker build -t "backend" .
+docker image ls 
+-> should show the new image
+
+2. run the docker backend image
+docker run --publish 8000:8000 backend
