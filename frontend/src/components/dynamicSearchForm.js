@@ -89,7 +89,7 @@ const DynamicFormComponent = () => {
           {options.map(option => {
             // console.log(option[0]);
             // console.log(option[1].type);
-            
+            console.log(typeof options);
             // todo required true from options data
             if (option[1].type === 'string' && option[1].label !== 'Script') {
               return (

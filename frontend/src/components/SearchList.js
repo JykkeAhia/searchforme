@@ -4,93 +4,7 @@ import axios from 'axios';
 const SearchListComponent = () => {
     const [searches, setSearches] = useState({});
     const [options, setOptions] = useState([]);
-    /*
-    const [options, setOptions] = useState({
-        searchcarprice: {
-            id: {
-              type: 'integer',
-              required: false,
-              read_only: true,
-              label: 'ID'
-            },
-            title: {
-              type: 'string',
-              required: true,
-              read_only: false,
-              label: 'Title',
-              max_length: 120
-            },
-            create_datetime: {
-              type: 'datetime',
-              required: false,
-              read_only: true,
-              label: 'Create datetime'
-            },
-            script: {
-              type: 'string',
-              required: true,
-              read_only: false,
-              label: 'Script',
-              max_length: 24
-            },
-            parameter_model: {
-              type: 'string',
-              required: true,
-              read_only: false,
-              label: 'Parameter model',
-              max_length: 256
-            },
-            parameter_make: {
-              type: 'string',
-              required: true,
-              read_only: false,
-              label: 'Parameter make',
-              max_length: 256
-            }
-          },
-          searchwebshop: {
-            id: {
-              type: 'integer',
-              required: false,
-              read_only: true,
-              label: 'ID'
-            },
-            title: {
-              type: 'string',
-              required: true,
-              read_only: false,
-              label: 'Title',
-              max_length: 120
-            },
-            create_datetime: {
-              type: 'datetime',
-              required: false,
-              read_only: true,
-              label: 'Create datetime'
-            },
-            script: {
-              type: 'string',
-              required: true,
-              read_only: false,
-              label: 'Script',
-              max_length: 24
-            },
-            search_string: {
-              type: 'string',
-              required: true,
-              read_only: false,
-              label: 'Search string',
-              max_length: 256
-            },
-            search_max_price: {
-              type: 'integer',
-              required: true,
-              read_only: false,
-              label: 'Search max price'
-            }
-          }
-    }); 
-    */ 
+   
     // TODO tää tieto pitäisi olla Contextissa tai muussa globaalissa tilassa tms. 
     // TODO lisäksi ei lataudu tarpeeksi ajoissa eli pitäisi varmaan tehdä alussa myös tämän haku
 
@@ -103,10 +17,10 @@ const SearchListComponent = () => {
             const response = await axios.get('http://127.0.0.1:8000/api/allsavedsearches/');
             setSearches({searches: response.data});
             // console.log(response.data);
-            const searchNames = Object.keys(response.data).map(key => {
-                return {key: fetchOptions(key)};
-            })
-            console.log(searchNames);
+            Object.keys(response.data).map(key => {
+                console.log("avain :"+key);
+                fetchOptions(key);
+            });
         } catch (error) {
             console.error(error);
         }
@@ -120,10 +34,12 @@ const SearchListComponent = () => {
                     method: "OPTIONS",
                 });
                 const jsonData = await response.json();
+                const postData = Object.entries(jsonData.actions.POST);
                 setOptions((prevState) => ({
-                    ...prevState, [script]: Object.entries(jsonData.actions.POST) // TODO niin helpottuu Object.entries(jsonData.actions.POST);
+                    ...prevState, 
+                    [script]: postData,
                 }));
-                console.log(Object.entries(jsonData.actions.POST));
+                console.log(postData);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -133,7 +49,7 @@ const SearchListComponent = () => {
     const runSearch = async (id) => {
         try {
             const response = await axios.get(`http://127.0.0.1:8000/api/runsearch/?search_id=${id}`);
-            // setSearches({searches: response.data});
+            // TODO setSearches({searches: response.data});
             console.log(response.data);
             // TODO xstatelle tässä viesti, että search for search id on päällä
         } catch (error) {
@@ -142,36 +58,40 @@ const SearchListComponent = () => {
         } 
     };
 
-    // TODO 1. muuta options taulukoksi?? niin se toimii nätimmin
-    // TODO 2. mihin search tulokset varmaan oma sivu??
-
     return (
         <>
            <h2>Searches</h2>
            {searches.searches && options ? (
                 <div>
-                    {Object.keys(searches.searches).map((key, index) => {
+                    {Object.keys(searches.searches).map((searchname, index) => {
                         return (
                             <div>
-                                <h3 key={index}>{key}</h3>
-                                { JSON.stringify(searches.searches[key].saved_searches) }
+                                <h3 key={index}>{searchname}</h3>
+                                { JSON.stringify(searches.searches[searchname].saved_searches) }
                                 
-                                {Object.values(searches.searches[key].saved_searches).map(search => {
+                                {Object.values(searches.searches[searchname].saved_searches).map(search => {
                                     let has_searchevent = false;
                                     if (search.has_searchevent === true) has_searchevent = true;
                                     return (
                                         <div>
                                             <ul>
-                                                <li key={search.id}>TODO poista Search ID : {search.id}</li>
-                                                <li key={search.script}>TODO tääkin vois tulla suoraan Script: {search.script}</li>
-                                                {options[key].map((searchParameter, index2) => {
-                                                    if(searchParameter !== 'id' && searchParameter !== 'script' && searchParameter !== 'has_searchevent') {
+                                                {console.log("avain2 "+searchname)}
+                                                {console.log((options[searchname]))}
+
+                                                {Object.entries(options).map(([key, value]) => {
+                                                    if(searchname === key) 
                                                         return (
-                                                          <li key={searchParameter+"_"+index2}>{Object.values(options[key][searchParameter].label)} : {search[searchParameter]}</li>
+                                                            <div>
+                                                                {value.map(([prop, propData], index) => (
+                                                                    <li name="property" id={index+"_"+prop}>
+                                                                        {propData.label} : {search[prop]}
+                                                                    </li>
+                                                                ))}
+                                                            </div>
                                                         )
-                                                    } 
-                                                    return ( <></> )
+                                                    else return ( <> </> )
                                                 })}
+                                               
                                             </ul>
                                             <button onClick={() => runSearch(search.id)}>Start search</button>
                                             {has_searchevent ? (
@@ -186,9 +106,10 @@ const SearchListComponent = () => {
                         )
                     })}
 
-                    <p>JSON auki</p>
-                    {JSON.stringify(options["searchcarprice"])}
-
+                    <p>Searches auki</p>
+                    {JSON.stringify(searches)}
+                    <p>options json auki</p>
+                    {JSON.stringify(options)}
                 </div>
             ) : (
                 <p>No searches</p>   

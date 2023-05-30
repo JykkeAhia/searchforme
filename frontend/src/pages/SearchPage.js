@@ -6,7 +6,7 @@ const SearchPage = () => {
   return (
     <div>
       <h2>Search Page</h2>
-      <p>Create a new search by selecting a script. TODO siirrä Contextiin jotta näkyy kun tehty.</p>
+      <p>Create a new search by selecting a script. TODO siirrä Contextiin jotta näkyy kun tehty tai lisää kun palautuu.</p>
       <DynamicFormComponent />
       <SearchList />
     </div>
