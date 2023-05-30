@@ -3,6 +3,8 @@ import axios from 'axios';
 
 const SearchListComponent = () => {
     const [searches, setSearches] = useState({});
+    const [options, setOptions] = useState([]);
+    /*
     const [options, setOptions] = useState({
         searchcarprice: {
             id: {
@@ -87,7 +89,9 @@ const SearchListComponent = () => {
               label: 'Search max price'
             }
           }
-    }); // TODO tää tieto pitäisi olla Contextissa tai muussa globaalissa tilassa tms. 
+    }); 
+    */ 
+    // TODO tää tieto pitäisi olla Contextissa tai muussa globaalissa tilassa tms. 
     // TODO lisäksi ei lataudu tarpeeksi ajoissa eli pitäisi varmaan tehdä alussa myös tämän haku
 
     useEffect(() => {
@@ -112,17 +116,16 @@ const SearchListComponent = () => {
     const fetchOptions = async (script) => {
         if (script !== undefined) {
             try {
-            const response = await fetch(`http://127.0.0.1:8000/api/${script}/?format=json`, {
-                method: "OPTIONS",
-            });
-            const jsonData = await response.json();
-            setOptions((prevState) => ({
-                ...prevState, [script]: jsonData.actions.POST // TODO niin helpottuu Object.entries(jsonData.actions.POST);
-            }));
-            // console.log(jsonData.actions.POST);
-            return jsonData.actions.POST;
+                const response = await fetch(`http://127.0.0.1:8000/api/${script}/?format=json`, {
+                    method: "OPTIONS",
+                });
+                const jsonData = await response.json();
+                setOptions((prevState) => ({
+                    ...prevState, [script]: Object.entries(jsonData.actions.POST) // TODO niin helpottuu Object.entries(jsonData.actions.POST);
+                }));
+                console.log(Object.entries(jsonData.actions.POST));
             } catch (error) {
-            console.error('Error fetching data:', error);
+                console.error('Error fetching data:', error);
             }
         }
     };
@@ -161,7 +164,7 @@ const SearchListComponent = () => {
                                             <ul>
                                                 <li key={search.id}>TODO poista Search ID : {search.id}</li>
                                                 <li key={search.script}>TODO tääkin vois tulla suoraan Script: {search.script}</li>
-                                                {Object.keys(options[key]).map((searchParameter, index2) => {
+                                                {options[key].map((searchParameter, index2) => {
                                                     if(searchParameter !== 'id' && searchParameter !== 'script' && searchParameter !== 'has_searchevent') {
                                                         return (
                                                           <li key={searchParameter+"_"+index2}>{Object.values(options[key][searchParameter].label)} : {search[searchParameter]}</li>
@@ -184,12 +187,8 @@ const SearchListComponent = () => {
                     })}
 
                     <p>JSON auki</p>
-                    {JSON.stringify(options)}
-                    {Object.values(options).map((option) => {
-                        return (
-                            <div>{option.id.type}</div>
-                        )
-                    })}
+                    {JSON.stringify(options["searchcarprice"])}
+
                 </div>
             ) : (
                 <p>No searches</p>   
