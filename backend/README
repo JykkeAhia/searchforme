@@ -25,10 +25,17 @@ Pre:
 Chrome maybe should be the same as in the container 
 
 1. install pip and python 3.8.10 
-2. in backend folder pipenv shell 
+2. in backend folder do pipenv shell 
 3. pip install --upgrade -r ./requirements/base.txt
 4. python manage.py migrate
 5. python manage.py runserver 0.0.0.0:8000
 
 Try to access at http://localhost:8000/api 
 or /admin -> admin:admin 
+
+--- TODO Or run the whole weirdness with docker compose
+1. install docker stuff 
+2. build all images backend and fronend (later java event sourcing)
+3. in the root of the cloned project do docker compose up
+This should run backend, fronend, (later java service), celery, redis and mayby some log monitoring NICE to have
+4. Go to http://localhost:3000 and try it out 

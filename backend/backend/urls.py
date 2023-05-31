@@ -31,8 +31,3 @@ urlpatterns = [
     path('api/searches/', views.searchOptions, name='search-options'),
     path('api/allsavedsearches/', views.allSavedSearches, name='all-saved-searches'),
 ]
-
-# TODO miten frontti tietää mitä hakuja meillä on listattavaksi drop down valikkoon?
-# jotenkin sen pitää osata hakea kaikki api/search alla olevat mahdollisuudet options
-# ja kysyä mitä dataa tarvitaan sen luomiseen
-# ja esittää ne boxit sitten dynaamisesti

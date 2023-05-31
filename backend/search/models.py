@@ -6,10 +6,15 @@ from model_utils.managers import InheritanceManager
 
 class Search(models.Model):
     ''' This should be an abstract class but later '''
+    SEARCH_TYPE_CHOICES = [
+        ('one_time', _("Option once")),
+        ('hourly', _("Option hourly")),
+        ('daily', _("Option daily")),
+    ]
     title = models.CharField(max_length=120)
     create_datetime = models.DateTimeField(auto_now_add=True)
     script = models.CharField(max_length=24)
-    # search_type TODO add when JAVA based event sourcing service is done
+    search_type = models.CharField(max_length=50, choices=SEARCH_TYPE_CHOICES)
 
     # NICE to have description = models.TextField(max_length=255)
     # https://web3usecase.co/improving-your-django-model-design-2b3158ad10df
@@ -19,7 +24,7 @@ class Search(models.Model):
     # TODO def clean(self) validate base class search parameter
 
     def __str__(self):
-        return F"Search.Title: {self.title}"
+        return F"Search Title: {self.title}"
 
     class Meta:
         ordering = ['create_datetime']
@@ -44,6 +49,12 @@ class SearchWebShop(Search):
     # TODO clean(self):
 
 
+""" class SearchBitcoin(Search):
+    api_key = models.CharField(max_length=256)
+    search_api_url = models.CharField(max_length=256)
+ """
+
+
 class SearchEvent(models.Model):
     ''' We use jsonfield for search results since we don't know what results new scripts might have '''
     search = models.ForeignKey(Search, on_delete=models.CASCADE)
@@ -52,7 +63,7 @@ class SearchEvent(models.Model):
     data = models.JSONField(null=True)
 
     def __str__(self):
-        return F"Search: {self.search.__str__} EventType: {self.event_type}"
+        return F"{self.search}"
 
     class Meta:
         ordering = ['created_datetime']

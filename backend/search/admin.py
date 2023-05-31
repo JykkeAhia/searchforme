@@ -7,18 +7,19 @@ class SearchCarPriceAdmin(admin.ModelAdmin):
         'create_datetime',
         'title',
         'script',
-        #'has_searchevent',
+        # 'has_searchevent',
         'parameter_model',
         'parameter_make',
     )
 # TODO add has_searchevent boolean somehow
+
 
 class SearchWebShopAdmin(admin.ModelAdmin):
     list_display = (
         'create_datetime',
         'title',
         'script',
-        #'has_searchevent',
+        # 'has_searchevent',
         'search_string',
         'search_max_price',
     )
@@ -36,9 +37,10 @@ class SearchEventAdmin(admin.ModelAdmin):
         return str(obj.search)
     search_display.short_description = 'Search'
 
+    # display jsonfield data in admin interface
     def display_data(self, obj):
         if obj.data:
-            return obj.data  # Adjust this line to format the JSON data as desired
+            return obj.data  # TODO how to display nicely
         return None
     display_data.short_description = 'Data'
 

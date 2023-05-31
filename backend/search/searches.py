@@ -47,7 +47,6 @@ def SearchCarPriceScript(search: models.SearchCarPrice):
     logger.info(driver)
 
     baseUrl = "https://www.nettiauto.com/{make}/{model}?id_vehicle_type=1&id_car_type=4&id_fuel_type=8&id_country[]=73&chargingPowerFrom=&chargingPowerTo="
-
     searchUrl = baseUrl.format(make=search.parameter_make, model=search.parameter_model)
     try:
         driver.get(searchUrl)
@@ -116,9 +115,14 @@ def SearchWebShopScript(search: models.SearchWebShop) -> str:
     return event
 
 
+# def SearchBitcoinScript(search: models.SearchWebShop) -> str:
+# TODO haetaan bitcoin value joka minuutti niin saadaan event dataa kaavioon
+
+
 # the key should match the script in the Search object
 # TODO these must be sent to front end as key value pair json
 usable_search_functions = {
     'searchcarprice': SearchCarPriceScript,
     'searchwebshop': SearchWebShopScript,
+    # 'searchbitcoin': SearchBitcoinScript,
 }

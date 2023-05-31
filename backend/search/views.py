@@ -2,7 +2,8 @@
 import logging
 from django.apps import apps
 from django.db.models import Case, When, BooleanField
-from django.http import JsonResponse
+# from django.http import JsonResponse
+from rest_framework.decorators import api_view
 from rest_framework import viewsets, serializers, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,13 +11,9 @@ from search import serializers as our_serializers
 from search import searches
 from search import models
 
-from rest_framework.decorators import api_view
-
 logger = logging.getLogger(__name__)
 
-# https://github.com/HackSoftware/Django-Styleguide#class-based-vs-function-based
-
-# bitcoin tms. search jotta saadaan vaikka minuutin välein päivittyvä data
+# bitcoin tms. search jotta saadaan vaikka minuutin välein päivittyvä data graafia ja event sourcing sydemiä varten
 
 
 class SearchCarPriceView(viewsets.ModelViewSet):
@@ -68,8 +65,8 @@ def allSavedSearches(request):
     ''' Get all created searches for UI '''
     dict_to_send = {}
 
-    for search_type, search_script_name in searches.usable_search_functions.items():
-        logger.info(search_type)
+    for search_name, search_script_name in searches.usable_search_functions.items():
+        logger.info(search_name)
         logger.info(search_script_name.__name__)
 
         search_model = search_script_name.__name__.replace("Script", "")
@@ -82,7 +79,7 @@ def allSavedSearches(request):
         }
         logger.info(dict_tmp)
 
-        dict_to_send[search_type] = dict_tmp
+        dict_to_send[search_name] = dict_tmp
 
     return Response(dict_to_send, status=status.HTTP_200_OK)
 
@@ -123,8 +120,8 @@ class CreateSearchCarPriceApi(APIView):
 @api_view(('GET',))
 # @renderer_classes((JSONRenderer))
 def runSearch(request):
-    ''' Will run all kinda Searches that depending on the SearchScript will write data to Events in a JSON field as key value pairs
-        or if chosen to java event sourcing service
+    ''' Will run all kinda Searches and depending on the SearchScript will write data to SeachEvents in a JSON field as key value pairs
+        or if chosen to java event sourcing service 
     '''
     if 'search_id' not in request.GET:
         return Response("search_id not provided", status=status.HTTP_400_BAD_REQUEST)
@@ -134,7 +131,7 @@ def runSearch(request):
     #   return Response("search_type not provided", status=status.HTTP_400_BAD_REQUEST)
     # Also add time interval for search celery task time settings
 
-    # TODO try catch
+    # TODO try catch and response error to UI
     # This way we can search base class since we don't know what subclasses we have in the end
     search = models.Search.objects.get_subclass(id=request.GET['search_id'])
     # Then we will call the Script that will search and save results
