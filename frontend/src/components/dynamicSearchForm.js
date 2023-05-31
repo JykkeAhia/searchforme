@@ -74,8 +74,8 @@ const DynamicFormComponent = () => {
     <form onSubmit={handleFormSubmit}>
       <div>
         {/* Example select field */}
-        <label key="script" htmlFor="script">Script :</label>
-        <select key="scriptselect" name="script" value={formData.script || ''} onChange={handleScriptChange} class="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"> 
+        <label key="script" htmlFor="script" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Script :</label>
+        <select key="scriptselect" name="script" value={formData.script || ''} onChange={handleScriptChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> 
           <option key="optiondefault" value="">Select a search script</option>
           {selectOptions.map((option) => (
             <option key={option[0]} value={option[0]}>
@@ -95,14 +95,14 @@ const DynamicFormComponent = () => {
               return (
                 <div key={option[0]}>
                   <label htmlFor={option[0]}>{option[1].label} :</label>
-                  <input key={option[1].label} type="text" id={option[0]} name={option[0]} onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                  <input key={option[1].label} type="text" id={option[0]} name={option[0]} onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
               );
             } else if (option[1].type === 'integer' && option[1].label !== 'ID') {
               return (
                 <div key={option[0]}>
                   <label htmlFor={option[0]}>{option[1].label} :</label>
-                  <input key={option[1].label} type="integer" id={option[0]} name={option[0]} onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                  <input key={option[1].label} type="integer" id={option[0]} name={option[0]} onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
               );
             }
@@ -111,7 +111,7 @@ const DynamicFormComponent = () => {
             return null;
           })}
           {options.length > 0 ? ( 
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Create a new search</button>
+            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 mt-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Create a new search</button>
           ) : ( <p></p> )
           } 
         </div>

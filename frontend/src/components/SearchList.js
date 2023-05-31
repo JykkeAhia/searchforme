@@ -60,21 +60,22 @@ const SearchListComponent = () => {
 
     return (
         <>
-           <h2>Searches</h2>
+            <br></br>
+           <h2 class="text-2xl font-extrabold dark:text-white">Searches</h2>
            {searches.searches && options ? (
                 <div>
                     {Object.keys(searches.searches).map((searchname, index2) => {
                         return (
                             <div key={searchname}>
-                                <h3 key={`${index2}_${searchname}`}>{searchname}</h3>
+                                <h3 class="text-1xl mb-2 font-extrabold dark:text-white" key={`${index2}_${searchname}`}>{searchname}</h3>
                                 { /* JSON.stringify(searches.searches[searchname].saved_searches) */ }
                                 
                                 {Object.values(searches.searches[searchname].saved_searches).map(search => {
                                     let has_searchevent = false;
                                     if (search.has_searchevent === true) has_searchevent = true;
                                     return (
-                                        <div key={search.id+"_"+search.title}>
-                                            <ul key={searchname+"_"+search.id}>
+                                        <div class="max-w-sm p-4 mb-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" key={search.id+"_"+search.title}>
+                                            <ul role="list" class="divide-y divide-gray-100" key={searchname+"_"+search.id}>
                                                 { /* console.log("avain2 "+searchname) */ }
                                                 { /* console.log((options[searchname])) */}
 
@@ -83,7 +84,7 @@ const SearchListComponent = () => {
                                                         return (
                                                             <div key={searchname+"_"+key}>
                                                                 {value.map(([prop, propData], index) => (
-                                                                    <li name="property" key={key+"_"+index+"_"+prop} id={index+"_"+prop}>
+                                                                    <li name="property" key={key+"_"+index+"_"+prop} id={index+"_"+prop} class="flex py-1">
                                                                         {propData.label} : {search[prop]}
                                                                     </li>
                                                                 ))}
@@ -93,9 +94,10 @@ const SearchListComponent = () => {
                                                 })}
                                                
                                             </ul>
-                                            <button onClick={() => runSearch(search.id)}>Start search</button>
+                                            <br></br>
+                                            <button onClick={() => runSearch(search.id)} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Start search</button>
                                             {has_searchevent ? (
-                                                <button onClick={() => console.log(search.id)}>There are results</button>
+                                                <button onClick={() => console.log(search.id)} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">There are results</button>
                                             ) : ( 
                                                 <p>No results yet.</p>
                                             )}

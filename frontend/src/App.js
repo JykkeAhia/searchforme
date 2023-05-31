@@ -29,7 +29,7 @@ function App() {
         <div class="relative mx-auto w-full max-w-container px-4 sm:px-6 lg:px-8">
           <header>
             <div class="flex flex-col">
-              <h1 class="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 p-3 lg:px-8">Search For Me</h1>
+              <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-slate-900 p-3 lg:px-8">Search For Me</h1>
             
               <nav class="bg-gray-800">
                 <div class="flex max-w-7xl items-center justify-between p-2 lg:px-8">
