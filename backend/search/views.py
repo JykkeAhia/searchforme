@@ -2,6 +2,7 @@
 import logging
 from django.apps import apps
 from django.db.models import Case, When, BooleanField
+from django.http import JsonResponse
 from rest_framework import viewsets, serializers, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -28,7 +29,30 @@ class SearchWebShopView(viewsets.ModelViewSet):
     queryset = models.SearchWebShop.objects.all()
 
 
-# Tämä poistetan
+class SearchEventView(viewsets.ModelViewSet):
+    serializer_class = our_serializers.SearchEventSerializer
+    queryset = models.SearchEvent.objects.all()
+    '''
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        # Create a JSON response with all SearchEvents
+        response_data = {
+            "results": self.serializer_class(queryset, many=True).data,
+        }
+        return JsonResponse(response_data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        # Create a JSON response with only the requested SearchEvent
+        response_data = {
+            "id": instance.id,
+            "data": self.serializer_class(instance).data,
+        }
+        return JsonResponse(response_data)
+    '''
+
+
 @api_view(['GET'])
 def searchOptions(request):
     ''' FIXME and use internationalization or take Title from script '''
@@ -113,7 +137,7 @@ def runSearch(request):
     # TODO try catch
     # This way we can search base class since we don't know what subclasses we have in the end
     search = models.Search.objects.get_subclass(id=request.GET['search_id'])
-    # Then we will call the Script that will search and save results 
+    # Then we will call the Script that will search and save results
     search_event = searches.usable_search_functions[search.script](search)
 
     return Response(search_event, status=status.HTTP_201_CREATED)

@@ -5,10 +5,11 @@ from model_utils.managers import InheritanceManager
 
 
 class Search(models.Model):
+    ''' This should be an abstract class but later '''
     title = models.CharField(max_length=120)
     create_datetime = models.DateTimeField(auto_now_add=True)
     script = models.CharField(max_length=24)
-    # search_type TODO add when JAVA based event sourcing service is done   
+    # search_type TODO add when JAVA based event sourcing service is done
 
     # NICE to have description = models.TextField(max_length=255)
     # https://web3usecase.co/improving-your-django-model-design-2b3158ad10df
@@ -18,7 +19,7 @@ class Search(models.Model):
     # TODO def clean(self) validate base class search parameter
 
     def __str__(self):
-        return F"Search.Title: {self.title}"  # TODO add class name of subclass
+        return F"Search.Title: {self.title}"
 
     class Meta:
         ordering = ['create_datetime']
@@ -46,7 +47,7 @@ class SearchWebShop(Search):
 class SearchEvent(models.Model):
     ''' We use jsonfield for search results since we don't know what results new scripts might have '''
     search = models.ForeignKey(Search, on_delete=models.CASCADE)
-    create_datetime = models.DateTimeField(auto_now_add=True)
+    created_datetime = models.DateTimeField(auto_now_add=True)
     event_type = models.CharField(max_length=20)
     data = models.JSONField(null=True)
 
@@ -54,4 +55,4 @@ class SearchEvent(models.Model):
         return F"Search: {self.search.__str__} EventType: {self.event_type}"
 
     class Meta:
-        ordering = ['create_datetime']
+        ordering = ['created_datetime']

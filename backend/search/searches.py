@@ -30,9 +30,6 @@ def ota_webdriver():
     options.add_argument("--incognito")
     options.add_argument(f'user-agent={user_agent}')
 
-    logger.info("getting driver")
-
-    # return webdriver.Chrome('/home/django/kirjasto/kirja_systeemi/chromedriver', options=options)
     return webdriver.Chrome(settings.SELENIUM_CHROMEDRIVER_LOCATION, options=options)
 
     # TODO how to load jsondata
@@ -64,21 +61,16 @@ def SearchCarPriceScript(search: models.SearchCarPrice):
 
     element = driver.find_element(By.CLASS_NAME, "ma0")
     json_data = element.get_attribute("textContent")
-    logger.info(json_data)
-
-    # Vaihtoautohaun tulokset: 320 vaihtoautoa.
 
     json_data = json_data.replace('Vaihtoautohaun tulokset: ', '').replace(' vaihtoautoa.', '')
     json_data = {
-        "Vaihtoautojenmäärä": list(json_data)
+        "Vaihtoautojen määrä": json_data
     }
-
-    logger.info(json_data)
 
     try:
         parsed_data = json.dumps(json_data)
     except json.JSONDecodeError:
-        # Handle the case where the data is not valid JSON
+        # TODO let's not save this -> error message to UI
         parsed_data = {"error": "Invalid JSON"}
 
     # For now let's save the amount of these type of cars that are found
@@ -93,14 +85,11 @@ def SearchCarPriceScript(search: models.SearchCarPrice):
     driver.close()
     driver.quit()
 
-    # kirjoita kantaan niitä eventtejä
-
     # TODO tee java sydemi vaiheessa 2
     # https://www.baeldung.com/cqrs-event-sourcing-java
     # https://medium.com/bb-tutorials-and-thoughts/how-to-dockerize-java-rest-api-3d55ad36b914
 
-    event = "var price tosiasiassa tässä palautetaan se eventti F model jne."
-
+    event = "All was well but well was not all. Searchcarprice was a success."
     return event
 
 
@@ -118,11 +107,11 @@ def SearchWebShopScript(search: models.SearchWebShop) -> str:
     # kirjoita kantaan niitä eventtejä
 
     # 1. tee haku
-    # 2. tallenna SearchEventti kantaan 
+    # 2. tallenna SearchEventti kantaan
     # 3. laita datat jsonfieldiin
     # 4. palauta eventti jossa data siis mukana
 
-    event = "tosiasiassa tässä palautetaan se eventti F webshopsearch parameters tulos"
+    event = "webshopsearch parameters tulos"
 
     return event
 

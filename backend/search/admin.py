@@ -27,7 +27,7 @@ class SearchWebShopAdmin(admin.ModelAdmin):
 class SearchEventAdmin(admin.ModelAdmin):
     list_display = (
         'search',
-        'create_datetime',
+        'created_datetime',
         'event_type',
         'display_data',
     )

@@ -30,3 +30,15 @@ class SearchWebShopSerializer(serializers.ModelSerializer):
             'search_string',
             'search_max_price',
         )
+
+
+class SearchEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SearchEvent
+        fields = (
+            'id',
+            'search',
+            'created_datetime',
+            'event_type',
+            'data',
+        )
