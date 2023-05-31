@@ -9,12 +9,16 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import environ
 from pathlib import Path
+
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+BACKEND_DIR = Path(__file__).resolve().parent
 
+SELENIUM_CHROMEDRIVER_LOCATION = env('SELENIUM_WEBDRIVER_LOCATION', default='/chromedriver')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -40,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'search',
+    'model_utils',
 ]
 
 MIDDLEWARE = [
@@ -126,7 +131,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CORS settings for dev (TODO FOR PRODUCTION)
+# CORS settings for dev (TODO FOR PRODUCTION/docker compose)
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000',
      'http://127.0.0.1:3000'

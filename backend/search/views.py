@@ -1,4 +1,4 @@
-from search import models
+
 import logging
 from django.apps import apps
 from django.db.models import Case, When, BooleanField
@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from search import serializers as our_serializers
 from search import searches
+from search import models
 
 from rest_framework.decorators import api_view
 
@@ -27,10 +28,10 @@ class SearchWebShopView(viewsets.ModelViewSet):
     queryset = models.SearchWebShop.objects.all()
 
 
-# Tämä poistetan ja käytetään alempaa ehkä
+# Tämä poistetan
 @api_view(['GET'])
 def searchOptions(request):
-    ''' FIXME and use internationalization '''
+    ''' FIXME and use internationalization or take Title from script '''
     my_dict = {
         'searchcarprice': 'Search for car price',
         'searchwebshop': 'Search web shop',
@@ -67,8 +68,6 @@ def get_objects_by_model(model_name):
     ''' We need to get the search Models like this since we don't know what scripts there are '''
     Model = apps.get_model(app_label='search', model_name=model_name)
     if Model:
-        # Note that this is complex at the moment we have event based saves in the Java service and normal ones at the same time
-        # Se we need somekinda miniservice to find this out?
         return Model.objects.annotate(has_searchevent=Case(
             When(searchevent__isnull=False, then=True),
             default=False,
@@ -77,7 +76,7 @@ def get_objects_by_model(model_name):
     return None
 
 
-# NICE ota tälläinen oma käyttöön jossain esimerkin vuoksi
+# NICE to have ota tälläinen oma käyttöön jossain esimerkin vuoksi
 class CreateSearchCarPriceApi(APIView):
     ''' Uusia hakuja voidaan luoda mutta niitä ei koskaan päivitetä, koska tarkoitus on kerätä hakujen datan muutoksia'''
     class InputSerializer(serializers.Serializer):
@@ -100,7 +99,7 @@ class CreateSearchCarPriceApi(APIView):
 @api_view(('GET',))
 # @renderer_classes((JSONRenderer))
 def runSearch(request):
-    ''' Will run all kinda Searches and depending on the Search will write data to Events in a JSON field as key value pairs
+    ''' Will run all kinda Searches that depending on the SearchScript will write data to Events in a JSON field as key value pairs
         or if chosen to java event sourcing service
     '''
     if 'search_id' not in request.GET:
@@ -112,8 +111,9 @@ def runSearch(request):
     # Also add time interval for search celery task time settings
 
     # TODO try catch
-    search = models.Search.objects.get(id=request.GET['search_id'])
-
+    # This way we can search base class since we don't know what subclasses we have in the end
+    search = models.Search.objects.get_subclass(id=request.GET['search_id'])
+    # Then we will call the Script that will search and save results 
     search_event = searches.usable_search_functions[search.script](search)
 
     return Response(search_event, status=status.HTTP_201_CREATED)

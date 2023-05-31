@@ -11,17 +11,17 @@ ENV PYTHONUNBUFFERED 1
 # ENV CELERY_RESULT_BACKEND=redis://redis:6379/5
 ENV DEBUG_LOG_LOCATION=./debug.log
 ENV ERROR_LOG_LOCATION=./error.log
+ENV SELENIUM_CHROMEDRIVER_LOCATION='/usr/local/bin/chromedriver'
 
 ADD . /usr/src/app
 COPY . .
 
+# or docker ignore
+RUN rm .env 
+
 RUN pip install --upgrade pip
 RUN pip install --upgrade -r ./requirements/base.txt
 # TODO cache pip install jotenkin
-# RUN pip install importlib-metadata==4.13.0
-# RUN pip install --upgrade -r ./requirements/local.txt
-# We need this for older ways
-# RUN pip install Twisted==18.9.0
 RUN apt install nano
 # TODO aseta static files asetuksiin RUN python manage.py collectstatic --noinput
 RUN python manage.py migrate

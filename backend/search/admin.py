@@ -11,7 +11,7 @@ class SearchCarPriceAdmin(admin.ModelAdmin):
         'parameter_model',
         'parameter_make',
     )
-
+# TODO add has_searchevent boolean somehow
 
 class SearchWebShopAdmin(admin.ModelAdmin):
     list_display = (
