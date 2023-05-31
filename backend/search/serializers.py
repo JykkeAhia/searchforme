@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from search import models
 
+# TODO make a dynamic field or foreign key field for has_searchevent
+
 
 class SearchCarPriceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,4 +29,16 @@ class SearchWebShopSerializer(serializers.ModelSerializer):
             # 'has_searchevent',
             'search_string',
             'search_max_price',
+        )
+
+
+class SearchEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SearchEvent
+        fields = (
+            'id',
+            'search',
+            'created_datetime',
+            'event_type',
+            'data',
         )

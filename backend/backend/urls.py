@@ -22,6 +22,7 @@ from search import views
 router = routers.DefaultRouter()
 router.register(r'searchcarprice', views.SearchCarPriceView, 'search-car-price')
 router.register(r'searchwebshop', views.SearchWebShopView, 'search-web-shop')
+router.register(r'search', views.SearchEventView, 'search')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

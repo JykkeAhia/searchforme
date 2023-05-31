@@ -1,5 +1,13 @@
+--- With docker in wsl2 or Linux environment
 Pre:
-1. Dockerd must be running (in wsl2 window do sudo dockerd and leave it to show logs)
+Image has this versionm of Google Chrome 91.0.4472.114 should not be a problem
+
+https://chromedriver.storage.googleapis.com/index.html?path=114.0.5735.90/ is what we have in dev wsl2 
+
+So for dev reasons we will install chromedriver on backend root folder so we can use that 
+
+1. Dockerd must be running 
+-> (in wsl2 window do sudo dockerd and leave it to show logs)
 
 1. build docker image in backend folder where there is Dockerfile present
 docker build -t "backend" .
@@ -10,7 +18,17 @@ docker image ls
 docker run -p 8000:8000 backend
 
 3. Try to access at http://localhost:8000/api 
-or /admin 
+or /admin -> admin:admin 
 
+--- Or run normally in wsl2 environment
+Pre:
+Chrome maybe should be the same as in the container 
 
+1. install pip and python 3.8.10 
+2. in backend folder pipenv shell 
+3. pip install --upgrade -r ./requirements/base.txt
+4. python manage.py migrate
+5. python manage.py runserver 0.0.0.0:8000
 
+Try to access at http://localhost:8000/api 
+or /admin -> admin:admin 

@@ -1,22 +1,22 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from model_utils.managers import InheritanceManager
 
 
 class Search(models.Model):
+    ''' This should be an abstract class but later '''
     title = models.CharField(max_length=120)
-    # tallentaa kun luodaan ekan kerran
     create_datetime = models.DateTimeField(auto_now_add=True)
     script = models.CharField(max_length=24)
-    # description = models.TextField(max_length=255)
+    # search_type TODO add when JAVA based event sourcing service is done
 
+    # NICE to have description = models.TextField(max_length=255)
     # https://web3usecase.co/improving-your-django-model-design-2b3158ad10df
 
-    # json search parameters?? example {model: string, priceMax: integer}
-    # nämä luodaan adminissa eikä niitä ole tarkoitus vaihtaa luonnin jälkeen
-    # json search parameter values?
+    objects = InheritanceManager()
 
-    # TODO def clean(self) validate search parameters
+    # TODO def clean(self) validate base class search parameter
 
     def __str__(self):
         return F"Search.Title: {self.title}"
@@ -41,11 +41,13 @@ class SearchWebShop(Search):
     search_string = models.CharField(max_length=256)
     search_max_price = models.IntegerField()
 
+    # TODO clean(self):
+
 
 class SearchEvent(models.Model):
     ''' We use jsonfield for search results since we don't know what results new scripts might have '''
     search = models.ForeignKey(Search, on_delete=models.CASCADE)
-    create_datetime = models.DateTimeField(auto_now_add=True)
+    created_datetime = models.DateTimeField(auto_now_add=True)
     event_type = models.CharField(max_length=20)
     data = models.JSONField(null=True)
 
@@ -53,4 +55,4 @@ class SearchEvent(models.Model):
         return F"Search: {self.search.__str__} EventType: {self.event_type}"
 
     class Meta:
-        ordering = ['create_datetime']
+        ordering = ['created_datetime']

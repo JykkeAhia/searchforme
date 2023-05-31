@@ -107,6 +107,7 @@ const DynamicFormComponent = () => {
               );
             }
             // Handle other parameter types (e.g., checkbox, radio, etc.) as needed
+            // TODO validoi options mukaan
             return null;
           })}
           {options.length > 0 ? ( 
