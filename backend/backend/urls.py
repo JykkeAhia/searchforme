@@ -30,6 +30,6 @@ urlpatterns = [
     path('api/runsearch/', views.runSearch, name='action-run-search'),
     path('api/searches/', views.searchOptions, name='search-options'),
     path('api/allsavedsearches/', views.allSavedSearches, name='all-saved-searches'),
-    # path('api/getevents/<search_id>/', views.getResultsForSearch, name="get-event-results"),
     path('api/getevents/', views.getResultsForSearch, name="get-event-results"),
+    path('api/getsearchbyid/<int:id>/', views.getSearchById, name="get-search-byid"),
 ]

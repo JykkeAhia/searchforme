@@ -63,7 +63,8 @@ def SearchCarPriceScript(search: models.SearchCarPrice):
 
     json_data = json_data.replace('Vaihtoautohaun tulokset: ', '').replace(' vaihtoautoa.', '')
     json_data = {
-        'Vaihtoautojen määrä': json_data
+        'Vaihtoautojen määrä': json_data, 
+        'Some other data example': "Some data example",
     }
 
     try:
@@ -118,9 +119,7 @@ def SearchWebShopScript(search: models.SearchWebShop) -> str:
 # def SearchBitcoinScript(search: models.SearchWebShop) -> str:
 # TODO haetaan bitcoin value joka minuutti niin saadaan event dataa kaavioon
 
-
-# the key should match the script in the Search object
-# TODO these must be sent to front end as key value pair json
+''' All Script classes must end with Script '''
 usable_search_functions = {
     'searchcarprice': SearchCarPriceScript,
     'searchwebshop': SearchWebShopScript,

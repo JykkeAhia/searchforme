@@ -4,9 +4,22 @@ import axios from 'axios';
 
 const ResultEvents = (props) => {
     const [resultEvents, setResultEvents] = useState([]);
+    const [search, setSearch] = useState([]);
+    
     useEffect(() => {
+        fetchSearch();
         fetchResultEvents();
     }, []);
+
+    const fetchSearch = async () => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/api/getsearchbyid/${props.search_id}/`);
+            console.log(response.data);
+            setSearch(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const fetchResultEvents = async () => {
         try {
@@ -31,11 +44,26 @@ const ResultEvents = (props) => {
         }
     };
 
+    // TODO also show some Search info like used parameters and name etc
     // TODO and show them on the chart
 
     return (
         <>
             <div>
+                <br />
+                <div>
+                    <strong>Search info:</strong>
+                    <ul>
+                        {Object.entries(search).map(([prop, propData], index) => {
+                            return ( 
+                                <li key={index+"_"+prop}>{prop} : {propData}</li>
+                            )
+                        })}
+                    </ul>
+                </div>
+                <br />
+                <hr />
+                <strong>Data:</strong> <hr />
                 {resultEvents.map((event) => {
                     return ( 
                         <>
@@ -54,10 +82,13 @@ const ResultEvents = (props) => {
                                     )}
                                 </ul>
                             </div>
+                            <hr />
                         </>
                     )
                 })}
                 {JSON.stringify(resultEvents)}
+                <p>JSON auki search</p>
+                {JSON.stringify(search)}
             </div>
         </>
     )

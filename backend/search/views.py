@@ -119,11 +119,37 @@ class CreateSearchCarPriceApi(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class SearchSerializer(serializers.Serializer):
+    class Meta:
+        model = models.Search
+        fields = '__all__'
+        depth = 1
+
+
+@api_view(('GET',))
+def getSearchById(request, id: int):
+    ''' Get Search subclass by Search id and dynamically create a response json data to UI '''
+    search = models.Search.objects.get_subclass(id=id)
+
+    # Create the data dictionary dynamically based on search_fields
+    search_fields = [field.name for field in search._meta.get_fields() if field.concrete]
+
+    logger.info(search_fields)
+
+    data = {field: getattr(search, field) for field in search_fields}
+
+    logger.info(data)
+
+    data['search_ptr'] = str(data['search_ptr'])
+
+    return JsonResponse(data, safe=False)
+
+
 @api_view(('GET',))
 # @renderer_classes((JSONRenderer))
 def runSearch(request):
     ''' Will run all kinda Searches and depending on the SearchScript will write data to SeachEvents in a JSON field as key value pairs
-        or if chosen to java event sourcing service 
+        or if chosen to java event sourcing service
     '''
     if 'search_id' not in request.GET:
         return Response("search_id not provided", status=status.HTTP_400_BAD_REQUEST)
@@ -144,11 +170,11 @@ def runSearch(request):
 
 @api_view(('GET',))
 def getResultsForSearch(request):
+    ''' Get all results for a search_id '''
     if 'search_id' not in request.GET:
         return Response("search_id not provided", status=status.HTTP_400_BAD_REQUEST)
 
     search_events = models.SearchEvent.objects.filter(search_id=request.GET.get('search_id'))
-    logger.info(search_events.count())
 
     result = []
     for search_event in search_events:
@@ -157,7 +183,7 @@ def getResultsForSearch(request):
             'search': str(search_event.search),
             'created_datetime': search_event.created_datetime,
             'event_type': search_event.event_type,
-            'data': json.loads(search_event.data),
+            'data': json.loads(search_event.data),  # Search result data is strored in a jsonfield
         }
         result.append(dict_to_send)
 
