@@ -1,16 +1,23 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import ResultOnce from '../components/ResultOnce'
+import ResultEvents from '../components/ResultEvents'
 
 const ResultPage = () => {
-    const { search_id } = useParams();
+    const { search_type, search_id } = useParams();
 
     return (
         <div class="bg-white p-8 box">
             <h1 class="text-3xl font-extrabold dark:text-white">Results page</h1>
             <br></br>
-            <p>TODO searhin tiedot ja tyypin mukainen datan esitys</p>
+            <p>Toistuvasti haettua dataa esitetään ajanmukaan graafina / jos vain yksittäinen haku esitetään ilman graafia. </p>
+            <p>TODO useamman eri Searchin datat samaan. </p>
             <br></br>
-            <p>ID: {search_id}</p>
+            <p>Search ID: {search_id} - Search type: {search_type}</p>
+            {(search_type === 'one_time') ? 
+                (<ResultOnce search_id={search_id}/>) : 
+                (<ResultEvents search_id={search_id}/>)
+            }
         </div>
     );
 };

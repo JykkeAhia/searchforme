@@ -1,5 +1,7 @@
 
 import logging
+import json
+from django.http import JsonResponse
 from django.apps import apps
 from django.db.models import Case, When, BooleanField
 # from django.http import JsonResponse
@@ -138,3 +140,27 @@ def runSearch(request):
     search_event = searches.usable_search_functions[search.script](search)
 
     return Response(search_event, status=status.HTTP_201_CREATED)
+
+
+@api_view(('GET',))
+def getResultsForSearch(request):
+    if 'search_id' not in request.GET:
+        return Response("search_id not provided", status=status.HTTP_400_BAD_REQUEST)
+
+    search_events = models.SearchEvent.objects.filter(search_id=request.GET.get('search_id'))
+    logger.info(search_events.count())
+
+    result = []
+    for search_event in search_events:
+        dict_to_send = {
+            'search_event_id': search_event.id,
+            'search': str(search_event.search),
+            'created_datetime': search_event.created_datetime,
+            'event_type': search_event.event_type,
+            'data': json.loads(search_event.data),
+        }
+        result.append(dict_to_send)
+
+    return JsonResponse(result, safe=False)
+
+    # return Response(dict_to_send, status=status.HTTP_200_OK)

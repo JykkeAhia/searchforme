@@ -47,7 +47,7 @@ function App() {
             <Routes>
               <Route path="/" exact element={<HomePage />} />
               <Route path="/search" element={<SearchPage />} />
-              <Route path="/result/:search_id" element={<ResultPage />} />
+              <Route path="/result/:search_type/:search_id" element={<ResultPage />} />
             </Routes>
           </div>
         </div>

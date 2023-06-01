@@ -63,7 +63,7 @@ def SearchCarPriceScript(search: models.SearchCarPrice):
 
     json_data = json_data.replace('Vaihtoautohaun tulokset: ', '').replace(' vaihtoautoa.', '')
     json_data = {
-        "Vaihtoautojen määrä": json_data
+        'Vaihtoautojen määrä': json_data
     }
 
     try:
@@ -75,7 +75,7 @@ def SearchCarPriceScript(search: models.SearchCarPrice):
     # For now let's save the amount of these type of cars that are found
     search_event = models.SearchEvent(
         search=search,
-        event_type="One time testing",
+        event_type="TODO",
         data=parsed_data,
     )
     logger.info(search_event)
