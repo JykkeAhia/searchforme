@@ -12,8 +12,6 @@ const ResultPage = () => {
             <br></br>
             <p>Toistuvasti haettua dataa esitetään ajanmukaan graafina / jos vain yksittäinen haku esitetään ilman graafia. </p>
             <p>TODO useamman eri Searchin datat samaan. </p>
-            <br></br>
-            <p>Search ID: {search_id} - Search type: {search_type}</p>
             {(search_type === 'one_time') ? 
                 (<ResultOnce search_id={search_id}/>) : 
                 (<ResultEvents search_id={search_id}/>)

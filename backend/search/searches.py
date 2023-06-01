@@ -89,7 +89,7 @@ def SearchCarPriceScript(search: models.SearchCarPrice):
     # https://www.baeldung.com/cqrs-event-sourcing-java
     # https://medium.com/bb-tutorials-and-thoughts/how-to-dockerize-java-rest-api-3d55ad36b914
 
-    event = "All was well but well was not all. Searchcarprice was a success."
+    event = "All is well but well is not all. Searchcarprice was a success."
     return event
 
 

@@ -44,52 +44,52 @@ const ResultEvents = (props) => {
         }
     };
 
-    // TODO also show some Search info like used parameters and name etc
-    // TODO and show them on the chart
+    // TODO show only part of search info
+    // TODO and show data on the chart
+    // also fix datetimes format here on in backend
 
     return (
         <>
+            <br />
             <div>
-                <br />
-                <div>
-                    <strong>Search info:</strong>
-                    <ul>
-                        {Object.entries(search).map(([prop, propData], index) => {
-                            return ( 
-                                <li key={index+"_"+prop}>{prop} : {propData}</li>
-                            )
-                        })}
-                    </ul>
-                </div>
-                <br />
-                <hr />
-                <strong>Data:</strong> <hr />
-                {resultEvents.map((event) => {
-                    return ( 
-                        <>
-                            <div>
-                                <ul>
-                                    {typeof event.data === 'string' ? (
-                                    <li>
-                                        <strong>Data:</strong> {event.data}
-                                    </li>
-                                    ) : (
-                                        Object.entries(event.data).map(([key, value]) => (
-                                            <li key={key}>
-                                            <strong>{key}: </strong> {value} - created: {event.created_datetime}
-                                            </li>
-                                        ))
-                                    )}
-                                </ul>
-                            </div>
-                            <hr />
-                        </>
-                    )
-                })}
-                {JSON.stringify(resultEvents)}
-                <p>JSON auki search</p>
-                {JSON.stringify(search)}
+                <h3 class="text-1xl mb-2 font-extrabold dark:text-white">Search info:</h3>
+                <ul class="divide-y divide-gray-100">
+                    {Object.entries(search).map(([prop, propData], index) => {
+                        return ( 
+                            <li key={index+"_"+prop} class="flex py-1">{prop} : {propData}</li>
+                        )
+                    })}
+                </ul>
             </div>
+            <br />
+            <h3 class="text-1xl mb-2 font-extrabold dark:text-white">Data:</h3> <hr />
+            {resultEvents.map((event) => {
+                const formattedDatetime = new Date(event.created_datetime).toLocaleString();
+                return ( 
+                    <>
+                        <div>
+                            Created: {formattedDatetime}
+                            <ul class="divide-y divide-gray-100">
+                                {typeof event.data === 'string' ? (
+                                <li class="flex py-1">
+                                    <h3 class="text-1xl mb-2 font-extrabold dark:text-white">Data:</h3> {event.data}
+                                </li>
+                                ) : (
+                                    Object.entries(event.data).map(([key, value]) => (
+                                        <li key={key} class="flex py-1">
+                                            {key} : {value}
+                                        </li>
+                                    ))
+                                )}
+                            </ul>
+                        </div>
+                        <hr />   
+                    </>
+                )
+            })}
+            {JSON.stringify(resultEvents)}
+            <p>JSON auki search</p>
+            {JSON.stringify(search)}
         </>
     )
 };

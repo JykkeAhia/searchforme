@@ -68,27 +68,20 @@ def allSavedSearches(request):
     dict_to_send = {}
 
     for search_name, search_script_name in searches.usable_search_functions.items():
-        logger.info(search_name)
-        logger.info(search_script_name.__name__)
-
         search_model = search_script_name.__name__.replace("Script", "")
         searches_tmp = get_objects_by_model(search_model)
-        logger.info(searches_tmp)
 
         dict_tmp = {
             "script_function": search_script_name.__name__,
             "saved_searches": searches_tmp.values(),
         }
-        logger.info(dict_tmp)
-
         dict_to_send[search_name] = dict_tmp
 
     return Response(dict_to_send, status=status.HTTP_200_OK)
 
 
-# lets get dynamically some models from the database note app_label means the app that is set in settings
 def get_objects_by_model(model_name):
-    ''' We need to get the search Models like this since we don't know what scripts there are '''
+    ''' We need to get the search Models like this since we don't know what scripts there are also we annotate with has_searchevent '''
     Model = apps.get_model(app_label='search', model_name=model_name)
     if Model:
         return Model.objects.annotate(has_searchevent=Case(
@@ -101,7 +94,7 @@ def get_objects_by_model(model_name):
 
 # NICE to have ota tälläinen oma käyttöön jossain esimerkin vuoksi
 class CreateSearchCarPriceApi(APIView):
-    ''' Uusia hakuja voidaan luoda mutta niitä ei koskaan päivitetä, koska tarkoitus on kerätä hakujen datan muutoksia'''
+    ''' Uusia hakuja voidaan luoda mutta niitä ei koskaan päivitetä, koska tarkoitus on kerätä hakujen datan muutoksia '''
     class InputSerializer(serializers.Serializer):
         title = serializers.CharField()
         script = serializers.CharField()
@@ -119,27 +112,15 @@ class CreateSearchCarPriceApi(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class SearchSerializer(serializers.Serializer):
-    class Meta:
-        model = models.Search
-        fields = '__all__'
-        depth = 1
-
-
 @api_view(('GET',))
 def getSearchById(request, id: int):
     ''' Get Search subclass by Search id and dynamically create a response json data to UI '''
+    # TODO error handling
     search = models.Search.objects.get_subclass(id=id)
-
     # Create the data dictionary dynamically based on search_fields
     search_fields = [field.name for field in search._meta.get_fields() if field.concrete]
-
-    logger.info(search_fields)
-
     data = {field: getattr(search, field) for field in search_fields}
-
-    logger.info(data)
-
+    # hax this so no json error
     data['search_ptr'] = str(data['search_ptr'])
 
     return JsonResponse(data, safe=False)
@@ -149,7 +130,7 @@ def getSearchById(request, id: int):
 # @renderer_classes((JSONRenderer))
 def runSearch(request):
     ''' Will run all kinda Searches and depending on the SearchScript will write data to SeachEvents in a JSON field as key value pairs
-        or if chosen to java event sourcing service
+        or if chosen to java event sourcing service LATER
     '''
     if 'search_id' not in request.GET:
         return Response("search_id not provided", status=status.HTTP_400_BAD_REQUEST)

@@ -68,6 +68,9 @@ const DynamicFormComponent = () => {
     }
   };
 
+  // TODO after new search add to state the new search (or update with small delay?)
+  // TODO Script otsikko kuntoon
+
   return (
     <form onSubmit={handleFormSubmit}>
       <div>
