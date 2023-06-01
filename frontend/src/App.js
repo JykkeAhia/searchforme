@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
+import ResultPage from './pages/ResultPage';
 
 /* TODO
  1. systeemin pääsivulla on seuraavia ominaisuuksia:
@@ -46,6 +47,7 @@ function App() {
             <Routes>
               <Route path="/" exact element={<HomePage />} />
               <Route path="/search" element={<SearchPage />} />
+              <Route path="/result/:search_id" element={<ResultPage />} />
             </Routes>
           </div>
         </div>

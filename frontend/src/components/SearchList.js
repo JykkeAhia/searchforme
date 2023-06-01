@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const SearchListComponent = () => {
     const [searches, setSearches] = useState({});
@@ -83,11 +84,13 @@ const SearchListComponent = () => {
                                                     if(searchname === key) 
                                                         return (
                                                             <div key={searchname+"_"+key}>
-                                                                {value.map(([prop, propData], index) => (
-                                                                    <li name="property" key={key+"_"+index+"_"+prop} id={index+"_"+prop} class="flex py-1">
-                                                                        {propData.label} : {search[prop]}
-                                                                    </li>
-                                                                ))}
+                                                                {value.map(([prop, propData], index) => {
+                                                                    return (
+                                                                        <li name="property" key={key + "_" + index + "_" + prop} id={index + "_" + prop} class="flex py-1">
+                                                                            {propData.label} : {search[prop]}
+                                                                        </li>
+                                                                    );
+                                                                })}
                                                             </div>
                                                         )
                                                     else return ( <> </> )
@@ -97,7 +100,9 @@ const SearchListComponent = () => {
                                             <br></br>
                                             <button onClick={() => runSearch(search.id)} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Start search</button>
                                             {has_searchevent ? (
-                                                <button onClick={() => console.log(search.id)} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">There are results</button>
+                                                <Link to={`/result/${search.id}`}>
+                                                    <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">There are results</button>
+                                                </Link>
                                             ) : ( 
                                                 <p>No results yet.</p>
                                             )}

@@ -49,6 +49,7 @@ const DynamicFormComponent = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    console.log("name: "+name+" value: "+value);
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     // console.info(formData);
   };
@@ -56,13 +57,10 @@ const DynamicFormComponent = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     // TODO validate by options in form or here
-    // Send form data to Django REST Framework endpoint
-    // POST to http://127.0.0.1:8000/api/searchcarprice/ or similar depending on the script used
     console.info(formData);
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/${script}/`, formData);
       console.log(response.data); 
-      // TODO if ok should we focus on the new search running options??
       // or clear the form since searches are immutable
     } catch (error) {
       console.error(error);
@@ -87,9 +85,6 @@ const DynamicFormComponent = () => {
       {options ? (
         <div>
           {options.map(option => {
-            // console.log(option[0]);
-            // console.log(option[1].type);
-            console.log(typeof options);
             // todo required true from options data
             if (option[1].type === 'string' && option[1].label !== 'Script') {
               return (
@@ -97,14 +92,32 @@ const DynamicFormComponent = () => {
                   <label htmlFor={option[0]}>{option[1].label} :</label>
                   <input key={option[1].label} type="text" id={option[0]} name={option[0]} onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
-              );
+              )
             } else if (option[1].type === 'integer' && option[1].label !== 'ID') {
               return (
                 <div key={option[0]}>
                   <label htmlFor={option[0]}>{option[1].label} :</label>
                   <input key={option[1].label} type="integer" id={option[0]} name={option[0]} onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
-              );
+              )
+            } else if (option[1].type === 'choice') {
+              return (
+                <div key={option[0]}>
+                  <label htmlFor={option[0]}>{option[1].label} :</label>
+                  <select key="scriptselectchoice" 
+                    name={option[0]} 
+                    value={formData[option[0]] || ''} 
+                    onChange={handleChange}
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> 
+                    <option key="typedefault" value="">{option[1].label} not selected</option>
+                    {option[1].choices.map((choice) => (
+                      <option key={choice.value} value={choice.value}>
+                        {choice.display_name}
+                      </option>
+                    ))}                      
+                  </select>
+                </div>
+              )
             }
             // Handle other parameter types (e.g., checkbox, radio, etc.) as needed
             // TODO validoi options mukaan
