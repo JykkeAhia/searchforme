@@ -71,7 +71,7 @@ const ResultEvents = (props) => {
                             Created: {formattedDatetime}
                             <ul class="divide-y divide-gray-100">
                                 {typeof event.data === 'string' ? (
-                                <li class="flex py-1">
+                                <li key="noneed" class="flex py-1">
                                     <h3 class="text-1xl mb-2 font-extrabold dark:text-white">Data:</h3> {event.data}
                                 </li>
                                 ) : (
@@ -97,3 +97,4 @@ const ResultEvents = (props) => {
 export default ResultEvents;
 
 // {JSON.stringify(resultEvents)}
+// {JSON.stringify(search)}

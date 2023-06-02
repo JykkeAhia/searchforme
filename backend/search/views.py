@@ -15,7 +15,11 @@ from search import models
 
 logger = logging.getLogger(__name__)
 
-# bitcoin tms. search jotta saadaan vaikka minuutin välein päivittyvä data graafia ja event sourcing sydemiä varten
+# TODO add celery for continuous searches to generate event sourcing data
+# TODO tee java sydemi vaiheessa 2
+# https://www.baeldung.com/cqrs-event-sourcing-java
+# https://medium.com/bb-tutorials-and-thoughts/how-to-dockerize-java-rest-api-3d55ad36b914
+# TODO add decorator for timing searches
 
 
 class SearchCarPriceView(viewsets.ModelViewSet):
@@ -31,25 +35,6 @@ class SearchWebShopView(viewsets.ModelViewSet):
 class SearchEventView(viewsets.ModelViewSet):
     serializer_class = our_serializers.SearchEventSerializer
     queryset = models.SearchEvent.objects.all()
-    '''
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        # Create a JSON response with all SearchEvents
-        response_data = {
-            "results": self.serializer_class(queryset, many=True).data,
-        }
-        return JsonResponse(response_data)
-
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-
-        # Create a JSON response with only the requested SearchEvent
-        response_data = {
-            "id": instance.id,
-            "data": self.serializer_class(instance).data,
-        }
-        return JsonResponse(response_data)
-    '''
 
 
 @api_view(['GET'])
@@ -68,9 +53,12 @@ def allSavedSearches(request):
     dict_to_send = {}
 
     for search_name, search_script_name in searches.usable_search_functions.items():
+        logger.info(search_script_name.__name__.replace("Script", ""))
         search_model = search_script_name.__name__.replace("Script", "")
         searches_tmp = get_objects_by_model(search_model)
 
+        logger.info(searches_tmp)
+        logger.info(searches_tmp.count())
         dict_tmp = {
             "script_function": search_script_name.__name__,
             "saved_searches": searches_tmp.values(),
@@ -82,6 +70,7 @@ def allSavedSearches(request):
 
 def get_objects_by_model(model_name):
     ''' We need to get the search Models like this since we don't know what scripts there are also we annotate with has_searchevent '''
+    logger.info(model_name)
     Model = apps.get_model(app_label='search', model_name=model_name)
     if Model:
         return Model.objects.annotate(has_searchevent=Case(
@@ -167,7 +156,5 @@ def getResultsForSearch(request):
             'data': json.loads(search_event.data),  # Search result data is strored in a jsonfield
         }
         result.append(dict_to_send)
-
+    logger.info(result)
     return JsonResponse(result, safe=False)
-
-    # return Response(dict_to_send, status=status.HTTP_200_OK)

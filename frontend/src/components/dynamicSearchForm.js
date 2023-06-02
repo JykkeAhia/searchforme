@@ -9,7 +9,6 @@ const DynamicFormComponent = () => {
 
   useEffect(() => {
     fetchScriptOptions();
-    // fetchOptions();
   }, []);
 
   const fetchScriptOptions = async () => {
@@ -41,17 +40,14 @@ const DynamicFormComponent = () => {
     const { name, value } = event.target;
     if (value === "") return;
     setScript(value);
-    console.info("script value changed named: "+name+" value: "+value);
+    // console.info("script value changed named: "+name+" value: "+value);
     handleChange(event);
     fetchOptions(value);
-    // TODO when script is changed should we clear the formData?
   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log("name: "+name+" value: "+value);
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-    // console.info(formData);
   };
 
   const handleFormSubmit = async (event) => {
@@ -68,13 +64,12 @@ const DynamicFormComponent = () => {
     }
   };
 
-  // TODO after new search add to state the new search (or update with small delay?)
+  // TODO after new search add to state the new search
   // TODO Script otsikko kuntoon
 
   return (
     <form onSubmit={handleFormSubmit}>
       <div>
-        {/* Example select field */}
         <label key="script" htmlFor="script" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Script :</label>
         <select key="scriptselect" name="script" value={formData.script || ''} onChange={handleScriptChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> 
           <option key="optiondefault" value="">Select a search script</option>
@@ -122,8 +117,8 @@ const DynamicFormComponent = () => {
                 </div>
               )
             }
-            // Handle other parameter types (e.g., checkbox, radio, etc.) as needed
-            // TODO validoi options mukaan
+            // Handle other parameter types
+            // TODO validation
             return null;
           })}
           {options.length > 0 ? ( 

@@ -31,7 +31,7 @@ const ResultOnce = (props) => {
         }
     };
     
-    // TODO also show some Search info like used parameters and name etc
+    // TODO also show some Search info like used parameters and name etc like in the events side
     
     return (
         <>

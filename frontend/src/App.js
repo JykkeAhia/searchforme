@@ -7,7 +7,7 @@ import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
 import ResultPage from './pages/ResultPage';
 
-/* TODO
+/* 
  1. systeemin pääsivulla on seuraavia ominaisuuksia:
  - voi valita dropdown menusta minkä searchin haluaa käynnistää (nämä saadaan jotenkin kysyttyä API:sta)
  - valinnan jälkeen systeemi hakee haku formin luomista varten kyseisen searchin api endpointista options kutsulla parametrit formia varten
@@ -18,9 +18,9 @@ import ResultPage from './pages/ResultPage';
  - tulokset saadaan excel tyyppiseen taulukkoon (otetaan valmis komponentti/kirjasto tähän)
  - lisäksi voidaan dataa esittää kaaviona (jos kyseessä lista eventeistä jolloin saadaan aikaan sidottu historia)
  - samaan aikasidonnaiseen kaavioon voidaan asettaa useampia tallennettuja hakuja
- (version 2)
+ (later)
  xstate käyttöön
- react context käyttöön
+ joku state managementti context tai redux vai onko jo lumia?
 */
 
 function App() {

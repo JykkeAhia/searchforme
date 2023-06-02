@@ -2,20 +2,14 @@ import logging
 import json
 from django.conf import settings
 from selenium import webdriver
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-from selenium.common.exceptions import NoSuchElementException
+# from selenium.common.exceptions import NoSuchElementException
 from search import models
 
 logger = logging.getLogger(__name__)
-
-# TODO how to get chromodriver that is the same as in the docker base image
-# run container and login to get info
-# 1. get the chromeversion 
-# 2. download and install 
-# 3. download and install chromewebdriver for that version of chrome 
 
 
 def ota_webdriver():
@@ -31,12 +25,6 @@ def ota_webdriver():
     options.add_argument(f'user-agent={user_agent}')
 
     return webdriver.Chrome(settings.SELENIUM_CHROMEDRIVER_LOCATION, options=options)
-
-    # TODO how to load jsondata
-    '''instance = MyModel.objects.get(pk=1)  # Assuming you have an instance with a primary key of 1
-    json_data = instance.json_data
-    data = json.loads(json_data)
-    '''
 
 
 def SearchCarPriceScript(search: models.SearchCarPrice):
@@ -85,10 +73,6 @@ def SearchCarPriceScript(search: models.SearchCarPrice):
     driver.close()
     driver.quit()
 
-    # TODO tee java sydemi vaiheessa 2
-    # https://www.baeldung.com/cqrs-event-sourcing-java
-    # https://medium.com/bb-tutorials-and-thoughts/how-to-dockerize-java-rest-api-3d55ad36b914
-
     event = "All is well but well is not all. Searchcarprice was a success."
     return event
 
@@ -111,7 +95,7 @@ def SearchWebShopScript(search: models.SearchWebShop) -> str:
     # 3. laita datat jsonfieldiin
     # 4. palauta eventti jossa data siis mukana
 
-    event = "webshopsearch parameters tulos"
+    event = "Not implemented yet"
 
     return event
 

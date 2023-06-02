@@ -6,8 +6,7 @@ const SearchListComponent = () => {
     const [searches, setSearches] = useState({});
     const [options, setOptions] = useState([]);
    
-    // TODO tää tieto pitäisi olla Contextissa tai muussa globaalissa tilassa tms. 
-    // TODO lisäksi ei lataudu tarpeeksi ajoissa eli pitäisi varmaan tehdä alussa myös tämän haku
+    // TODO Contextissa tai muu käyttöön
 
     useEffect(() => {
         fetchSearches();
@@ -17,17 +16,17 @@ const SearchListComponent = () => {
         try {
             const response = await axios.get('http://127.0.0.1:8000/api/allsavedsearches/');
             setSearches({searches: response.data});
-            // console.log(response.data);
+            console.log(response.data);
             Object.keys(response.data).map(key => {
                 console.log("avain :"+key);
                 fetchOptions(key);
+                return null;
             });
         } catch (error) {
             console.error(error);
         }
     };
 
-    // TODO siirretään contextiin ja lisäksi pitää tallentaa eri hakujen nimen alle optionssien tiedot 
     const fetchOptions = async (script) => {
         if (script !== undefined) {
             try {
@@ -37,8 +36,7 @@ const SearchListComponent = () => {
                 const jsonData = await response.json();
                 const postData = Object.entries(jsonData.actions.POST);
                 setOptions((prevState) => ({
-                    ...prevState, 
-                    [script]: postData,
+                    ...prevState, [script]: postData,
                 }));
                 // console.log(postData);
             } catch (error) {
@@ -50,7 +48,7 @@ const SearchListComponent = () => {
     const runSearch = async (id) => {
         try {
             const response = await axios.get(`http://127.0.0.1:8000/api/runsearch/?search_id=${id}`);
-            // TODO setSearches({searches: response.data});
+            // TODO setSearches({searches: ...searches, response.data});
             console.log(response.data);
             // TODO xstatelle tässä viesti, että search for search id on päällä
         } catch (error) {
@@ -62,31 +60,28 @@ const SearchListComponent = () => {
     return (
         <>
             <br></br>
-           <h2 class="text-2xl font-extrabold dark:text-white">Searches</h2>
-           {searches.searches && options ? (
+            <h2 class="text-2xl font-extrabold dark:text-white">Searches</h2>
+            {searches.searches && options ? (
                 <div>
                     {Object.keys(searches.searches).map((searchname, index2) => {
+                        let keyIndex = 0;
                         return (
                             <div key={searchname}>
-                                <h3 class="text-1xl mb-2 font-extrabold dark:text-white" key={`${index2}_${searchname}`}>{searchname}</h3>
-                                { /* JSON.stringify(searches.searches[searchname].saved_searches) */ }
-                                
+                                <h3 class="text-1xl mb-2 font-extrabold dark:text-white" key={`${index2}_${searchname}`}>{searchname}</h3>                                
                                 {Object.values(searches.searches[searchname].saved_searches).map(search => {
                                     let has_searchevent = false;
+                                    keyIndex++;
                                     if (search.has_searchevent === true) has_searchevent = true;
                                     return (
-                                        <div class="max-w-sm p-4 mb-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" key={search.id+"_"+search.title}>
+                                        <div class="max-w-sm p-4 mb-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" key={search.id+"_"+keyIndex+"_"+search.title}>
                                             <ul role="list" class="divide-y divide-gray-100" key={searchname+"_"+search.id}>
-                                                { /* console.log("avain2 "+searchname) */ }
-                                                { /* console.log((options[searchname])) */}
-
                                                 {Object.entries(options).map(([key, value]) => {
                                                     if(searchname === key) 
                                                         return (
-                                                            <div key={searchname+"_"+key}>
+                                                            <div key={searchname+"_"+value}>
                                                                 {value.map(([prop, propData], index) => {
                                                                     return (
-                                                                        <li name="property" key={key + "_" + index + "_" + prop} id={index + "_" + prop} class="flex py-1">
+                                                                        <li name="property" key={key + "_" + keyIndex + "_" + prop} id={index + "_" + prop} class="flex py-1">
                                                                             {propData.label} : {search[prop]}
                                                                         </li>
                                                                     );
@@ -111,15 +106,11 @@ const SearchListComponent = () => {
                             </div>
                         )
                     })}
-
-                    <p>Searches auki</p>
-                    {JSON.stringify(searches)}
-                    <p>options json auki</p>
-                    {JSON.stringify(options)}
                 </div>
             ) : (
                 <p>No searches</p>   
             )}
+            {JSON.stringify(searches)}
         </>
     );
 };
