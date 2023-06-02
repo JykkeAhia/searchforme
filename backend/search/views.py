@@ -55,6 +55,7 @@ def allSavedSearches(request):
     for search_name, search_script_name in searches.usable_search_functions.items():
         logger.info(search_script_name.__name__.replace("Script", ""))
         search_model = search_script_name.__name__.replace("Script", "")
+        logger.info("Model name: "+search_model)
         searches_tmp = get_objects_by_model(search_model)
 
         logger.info(searches_tmp)
@@ -77,7 +78,7 @@ def get_objects_by_model(model_name):
             When(searchevent__isnull=False, then=True),
             default=False,
             output_field=BooleanField()
-        ))
+        )).distinct()
     return None
 
 

@@ -35,10 +35,13 @@ const ResultOnce = (props) => {
     
     return (
         <>
-            <div>Search_id: {props.search_id}</div>
-            {JSON.stringify(resultEvent)}
+            <br />
+            <h3 class="text-1xl mb-2 font-extrabold dark:text-white">This is not implemented only hourly and daily results are</h3>
         </>
     )
 };
 
 export default ResultOnce;
+
+// <div>Search_id: {props.search_id}</div>
+// {JSON.stringify(resultEvent)}

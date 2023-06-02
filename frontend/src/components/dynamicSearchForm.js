@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const DynamicFormComponent = () => {
+const DynamicFormComponent = ({updateSearchList}) => {
   const [options, setOptions] = useState([]);
   const [formData, setFormData] = useState({});
   const [selectOptions, setSelectOptions] = useState([]);
@@ -57,6 +57,7 @@ const DynamicFormComponent = () => {
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/${script}/`, formData);
       console.log(response.data); 
+      updateSearchList();
       // or clear the form since searches are immutable
     } catch (error) {
       console.error(error);
@@ -64,8 +65,7 @@ const DynamicFormComponent = () => {
     }
   };
 
-  // TODO after new search add to state the new search
-  // TODO Script otsikko kuntoon
+  // TODO make more clear by adding stuff from return to functions 
 
   return (
     <form onSubmit={handleFormSubmit}>

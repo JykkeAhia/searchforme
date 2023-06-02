@@ -67,16 +67,16 @@ const ResultEvents = (props) => {
                 const formattedDatetime = new Date(event.created_datetime).toLocaleString();
                 return ( 
                     <>
-                        <div>
+                        <div key={event.id}>
                             Created: {formattedDatetime}
-                            <ul class="divide-y divide-gray-100">
+                            <ul key={event.id+"_ul"} class="divide-y divide-gray-100">
                                 {typeof event.data === 'string' ? (
-                                <li key="noneed" class="flex py-1">
+                                <li key="none" class="flex py-1">
                                     <h3 class="text-1xl mb-2 font-extrabold dark:text-white">Data:</h3> {event.data}
                                 </li>
                                 ) : (
                                     Object.entries(event.data).map(([key, value]) => (
-                                        <li key={key} class="flex py-1">
+                                        <li key={key+"_"+event.id} class="flex py-1">
                                             {key} : {value}
                                         </li>
                                     ))
@@ -87,14 +87,14 @@ const ResultEvents = (props) => {
                     </>
                 )
             })}
-            {JSON.stringify(resultEvents)}
-            <p>JSON auki search</p>
-            {JSON.stringify(search)}
         </>
     )
 };
 
 export default ResultEvents;
 
-// {JSON.stringify(resultEvents)}
-// {JSON.stringify(search)}
+/* 
+{JSON.stringify(resultEvents)}
+<p>JSON auki search</p>
+{JSON.stringify(search)}
+*/

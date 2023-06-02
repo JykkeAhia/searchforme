@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DynamicFormComponent from '../components/dynamicSearchForm'
 import SearchList from '../components/SearchList'
 
 const SearchPage = () => {
+  const [reloadFlag, setReloadFlag] = useState(false);
+
+  const updateSearchList = () => {
+    console.log("Update search List");
+    setReloadFlag(!reloadFlag); // Toggles the reload flag
+  }
+  
   return (
     <div>
       <div class="bg-white p-8 box">
@@ -10,8 +17,8 @@ const SearchPage = () => {
         <br></br>
         <p>Create a new search by selecting a script. TODO siirrä Contextiin jotta näkyy kun tehty tai lisää kun palautuu.</p>
         <br></br>
-        <DynamicFormComponent />
-        <SearchList />
+        <DynamicFormComponent updateSearchList={updateSearchList} />
+        <SearchList  reload={reloadFlag} />
       </div>
     </div>
   );

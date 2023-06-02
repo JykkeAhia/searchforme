@@ -1,0 +1,32 @@
+Pre:
+1. Docker must be in use 
+- in wsl2 do sudo dockerd to run dockerd
+- in linux just make sure docker is installed normally
+Tested on wsl2 docker version is the following:
+Client: Docker Engine - Community
+ Version:           24.0.2
+ API version:       1.43
+ Go version:        go1.20.4
+ Git commit:        cb74dfc
+ Built:             Thu May 25 21:52:22 2023
+ OS/Arch:           linux/amd64
+ Context:           default
+And Docker Compose version v2.18.1
+
+2. Build images 
+cd backend folder
+do "docker build -t "backend" ."
+cd frontend folder
+do "docker build -t "frontend" ."
+
+3. To run docker compose
+cd backend folder
+do "docker compose up" do not detach so you can see console output of docker compose up for errors etc.
+
+4. Browse to http://localhost:8000
+
+5. You can see parts of the api at http://localhost:8000/api
+
+6. Django admin backend is at http://localhost:8000/admin and username and password are admin
+
+7. If you like you can edit both backend and frontend files and save and services should update automatically
