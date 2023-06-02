@@ -1,3 +1,5 @@
+The idea of this weird set of code is to demo different things for a job interview. It has no other purpose. 
+
 Pre:
 1. Docker must be in use 
 - in wsl2 do sudo dockerd to run dockerd
