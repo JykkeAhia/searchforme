@@ -64,6 +64,7 @@ const ResultEvents = (props) => {
                 </ul>
             </div>
             <br />
+            <LineChartComponent stateData={resultEvents} />
             <h3 class="text-1xl mb-2 font-extrabold dark:text-white">Data:</h3> <hr />
             {resultEvents.map((event) => {
                 const formattedDatetime = new Date(event.created_datetime).toLocaleString();
@@ -89,7 +90,7 @@ const ResultEvents = (props) => {
                     </>
                 )
             })}            
-            <LineChartComponent stateData={resultEvents} />
+           
         </>
     )
 };
