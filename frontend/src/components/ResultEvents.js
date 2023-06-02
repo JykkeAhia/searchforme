@@ -1,6 +1,8 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import LineChartComponent from './LineChartComponent';
+
 
 const ResultEvents = (props) => {
     const [resultEvents, setResultEvents] = useState([]);
@@ -86,7 +88,8 @@ const ResultEvents = (props) => {
                         <hr />   
                     </>
                 )
-            })}
+            })}            
+            <LineChartComponent stateData={resultEvents} />
         </>
     )
 };
