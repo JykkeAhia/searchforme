@@ -54,12 +54,14 @@ const ResultEvents = (props) => {
         <>
             <br />
             <div>
-                <h3 class="text-1xl mb-2 font-extrabold dark:text-white">Search info:</h3>
+                <h3 class="text-1xl mb-2 font-extrabold dark:text-white">Search info for continuous search:</h3>
                 <ul class="divide-y divide-gray-100">
                     {Object.entries(search).map(([prop, propData], index) => {
-                        return ( 
-                            <li key={index+"_"+prop} class="flex py-1">{prop} : {propData}</li>
-                        )
+                        if(prop !== "search_ptr" && prop !== "script") {
+                            return ( 
+                                <li key={index+"_"+prop} class="flex py-1">{prop} : {propData}</li>
+                            )
+                        }
                     })}
                 </ul>
             </div>
@@ -71,7 +73,7 @@ const ResultEvents = (props) => {
                 return ( 
                     <>
                         <div key={event.id}>
-                            Created: {formattedDatetime}
+                            Searched: {formattedDatetime}
                             <ul key={event.id+"_ul"} class="divide-y divide-gray-100">
                                 {typeof event.data === 'string' ? (
                                 <li key="none" class="flex py-1">
