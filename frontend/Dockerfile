@@ -3,6 +3,7 @@ FROM node:16.18.0-alpine3.15
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY package-lock.json ./
 
 RUN npm cache clean --force
 
