@@ -18,7 +18,7 @@ ADD . /usr/src/app
 COPY . .
 
 # add to docker ignore
-RUN rm .env 
+#RUN rm .env 
 
 RUN pip install --upgrade pip
 RUN pip install --upgrade -r ./requirements/base.txt
