@@ -30,3 +30,7 @@ do "docker compose up" do not detach so you can see console output of docker com
 6. Django admin backend is at http://localhost:8000/admin and username and password are admin
 
 7. If you like you can edit both backend and frontend files and save and services should update automatically
+
+TODO: 
+
+Possible FIX for node_modules https://medium.com/bb-tutorials-and-thoughts/react-local-development-with-docker-compose-5a247710f997
