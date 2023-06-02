@@ -4,13 +4,13 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-COPY . . 
+RUN npm cache clean --force
 
 # If you are building your code for production
 # RUN npm ci --only=production
 RUN npm install
 
-# COPY . .
+COPY . .
 
 # Not good to use root as service runner since there are more security problems
 # USER node
