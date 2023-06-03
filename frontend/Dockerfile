@@ -5,11 +5,11 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY package-lock.json ./
 
-RUN npm cache clean --force
+# RUN npm cache clean --force
 
 # If you are building your code for production
 # RUN npm ci --only=production
-RUN npm install
+# MOVED TO CMD so it will not be over run by dev host RUN npm install
 
 COPY . .
 
@@ -17,4 +17,8 @@ COPY . .
 # USER node
 
 EXPOSE 3000
-CMD [ "npm", "start" ]
+
+# CMD [ "npm", "start" ]
+# OR mayby do npm intall in docker compose yml?
+# CMD /bin/bash -c 'npm install; npm start'
+CMD npm install && npm start
