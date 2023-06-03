@@ -1,0 +1,76 @@
+services:
+  backend:
+    container_name: backend
+    image: backend:latest
+    ports:
+      - "8000:8000"
+    volumes: # when running you can edit files and see changes happen in the docker compose up output console 
+      - ./:/usr/src/app/
+# We use the sqlite3 here in this demo
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+    environment:
+#      - DB_HOST=postgres
+#      - DB_USER_NAME=postgres
+#      - DB_PASSWORD=postgres
+#      - DB_NAME=conduit
+      - PORT=8000
+  frontend:
+    container_name: frontend
+    image: frontend:latest
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    volumes: # when docker compose is up you can edit the files normally and see frontend messages in the docker compose up console
+      - ../frontend/:/usr/src/app/
+    environment:
+#      - REACT_APP_BACKEND_URL=http://localhost:8000/api
+      - WDS_SOCKET_HOST=0.0.0.0
+      - WDS_SOCKET_PORT=0
+
+#  Later
+#  worker:
+#    container_name: celery
+    # restart: on-failure
+#    build:
+#      context: .
+#      dockerfile: ./Dockerfile
+#    command: celery -E -A searchforme.<appnameTODO> worker -l DEBUG  ## celery -E -A searchforme.<appname> worker --loglevel=debug --logfile=/usr/src/app/celery.log
+#    volumes:
+#      - ./:/usr/src/app
+#    environment:
+#      - DATABASE_URL=postgres://<dbuser>:<bdpass>@database:5432/<dbname>
+#      - CELERY_BROKER_URL=redis://redis:6379/4
+#      - CELERY_RESULT_BACKEND=redis://redis:6379/5
+#      - DEBUG_LOG_LOCATION=/usr/src/app/debug.log
+#      - ERROR_LOG_LOCATION=/usr/src/app/error.log
+#      - DJANGO_SETTINGS_MODULE=config.settings.local
+#      - CELERY_CREATE_DIRS=1
+#      - DJANGO_SECRET_KEY=
+#      - SELENIUM_WEBDRIVER_LOCATION=/usr/local/bin/chromedriver
+#    depends_on:
+#      - server
+#      - redis
+#      - database
+#  redis:
+#    container_name: redis
+#    image: redis:5.0.7
+#    expose:
+#      - "6379:6379"
+
+#  database:
+#    container_name: postgres
+#    image: postgres:10.21
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data/
+#    environment:
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#      - POSTGRES_DB=searchforme
+#    ports:
+#      - "5432:5432"
+#    user: postgres
+#volumes:
+#  postgres_data:
