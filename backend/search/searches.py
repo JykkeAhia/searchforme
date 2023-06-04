@@ -51,7 +51,7 @@ def SearchCarPriceScript(search: models.SearchCarPrice):
 
     json_data = json_data.replace('Vaihtoautohaun tulokset: ', '').replace(' vaihtoautoa.', '')
     json_data = {
-        'Vaihtoautojen määrä': json_data, 
+        'Vaihtoautojen määrä': json_data,
         'Some other data example': "Some data example",
     }
 
@@ -79,21 +79,8 @@ def SearchCarPriceScript(search: models.SearchCarPrice):
 
 def SearchWebShopScript(search: models.SearchWebShop) -> str:
     ''' Search for product price from verkkokauppa.com '''
-    # aja haku functio sillä perusteella mikä on search.script
-    # parametrit se tietää scriptissä mitä haluaa ja ne saa
-    # search oliolta sitten
     # = search.search_string
     # = search.parameter_make
-
-    # TODO aja haku
-    # get chrome driver()
-    # selenium jotain
-    # kirjoita kantaan niitä eventtejä
-
-    # 1. tee haku
-    # 2. tallenna SearchEventti kantaan
-    # 3. laita datat jsonfieldiin
-    # 4. palauta eventti jossa data siis mukana
 
     event = "Not implemented yet"
 

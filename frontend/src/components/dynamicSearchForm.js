@@ -54,8 +54,7 @@ const DynamicFormComponent = ({updateSearchList}) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    // TODO validate by options in form or here
-    console.info(formData);
+    // console.info(formData);
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/${script}/`, formData);
       console.log(response.data); 
@@ -63,7 +62,6 @@ const DynamicFormComponent = ({updateSearchList}) => {
       // or clear the form since searches are immutable
     } catch (error) {
       console.error(error);
-      // TODO display errors in the form or somewhere
     }
   };
 
@@ -85,7 +83,6 @@ const DynamicFormComponent = ({updateSearchList}) => {
       {options ? (
         <div>
           {options.map(option => {
-            // todo required true from options data
             if (option[1].type === 'string' && option[1].label !== 'Script') {
               return (
                 <div key={option[0]}>
@@ -119,8 +116,7 @@ const DynamicFormComponent = ({updateSearchList}) => {
                 </div>
               )
             }
-            // Handle other parameter types
-            // TODO validation
+            // TODO Handle other parameter types
             return null;
           })}
           {options.length > 0 ? ( 

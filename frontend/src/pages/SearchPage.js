@@ -6,7 +6,7 @@ const SearchPage = () => {
   const [reloadFlag, setReloadFlag] = useState(false);
 
   const updateSearchList = () => {
-    console.log("Update search List");
+    // console.log("Update search List");
     setReloadFlag(!reloadFlag);
   }
   

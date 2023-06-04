@@ -6,7 +6,7 @@ const SearchListComponent = (reload) => {
     const [searches, setSearches] = useState({});
     const [options, setOptions] = useState([]);
    
-    // TODO Contextissa tai muu käyttöön
+    // TODO Context tai muu käyttöön
 
     useEffect(() => {
         if (reload) {

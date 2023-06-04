@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 # https://www.baeldung.com/cqrs-event-sourcing-java
 # https://medium.com/bb-tutorials-and-thoughts/how-to-dockerize-java-rest-api-3d55ad36b914
 # TODO add decorator for timing searches
+# TODO for longer running searches https://pypi.org/project/django-eventstream/ maybe to inform frontend that we have results now
 
 
 class SearchCarPriceView(viewsets.ModelViewSet):
@@ -124,11 +125,6 @@ def runSearch(request):
     '''
     if 'search_id' not in request.GET:
         return Response("search_id not provided", status=status.HTTP_400_BAD_REQUEST)
-
-    # TODO add search type (single time or multiple times -> leads to event sourcing results)
-    # TODO if 'search_type' not in request.GET:
-    #   return Response("search_type not provided", status=status.HTTP_400_BAD_REQUEST)
-    # Also add time interval for search celery task time settings
 
     # TODO try catch and response error to UI
     # This way we can search base class since we don't know what subclasses we have in the end
