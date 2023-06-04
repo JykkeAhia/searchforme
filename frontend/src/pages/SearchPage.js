@@ -7,7 +7,7 @@ const SearchPage = () => {
 
   const updateSearchList = () => {
     console.log("Update search List");
-    setReloadFlag(!reloadFlag); // Toggles the reload flag
+    setReloadFlag(!reloadFlag);
   }
   
   return (
@@ -15,7 +15,7 @@ const SearchPage = () => {
       <div class="bg-white p-8 box">
         <h1 class="text-3xl font-extrabold dark:text-white">Search Page</h1>
         <br></br>
-        <p>Create a new search by selecting a script. TODO siirrä Contextiin jotta näkyy kun tehty tai lisää kun palautuu.</p>
+        <p>Create a new search by selecting a script.</p>
         <br></br>
         <DynamicFormComponent updateSearchList={updateSearchList} />
         <SearchList  reload={reloadFlag} />

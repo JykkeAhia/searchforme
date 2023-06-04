@@ -11,13 +11,7 @@ const SearchListComponent = (reload) => {
     useEffect(() => {
         if (reload) {
             // Perform reload logic or other actions here
-            console.log('SearchList reloaded!');
             fetchSearches();
-            // Reset the reload flag
-            // This is important to avoid triggering an infinite loop
-            // if the reload flag is set to true in the parent component
-            // during the reload logic in the child component
-            // Comment out the next line if you want to keep the reload flag set to true
             // setReloadFlag(false);
         }
     }, [reload]);

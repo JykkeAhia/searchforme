@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+// TODO add react form and form validation since we get all parameter information we should also validate here
+
 const DynamicFormComponent = ({updateSearchList}) => {
   const [options, setOptions] = useState([]);
   const [formData, setFormData] = useState({});

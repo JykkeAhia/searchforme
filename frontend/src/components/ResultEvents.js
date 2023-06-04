@@ -7,7 +7,7 @@ import LineChartComponent from './LineChartComponent';
 const ResultEvents = (props) => {
     const [resultEvents, setResultEvents] = useState([]);
     const [search, setSearch] = useState([]);
-    
+
     useEffect(() => {
         fetchSearch();
         fetchResultEvents();
@@ -25,7 +25,6 @@ const ResultEvents = (props) => {
 
     const fetchResultEvents = async () => {
         try {
-            // const response = await axios.get(`http://127.0.0.1:8000/api/getevents/${props.search_id}`);
             const response = await axios.get(`http://127.0.0.1:8000/api/getevents/?search_id=${props.search_id}`);
             console.log(response.data);
             setResultEvents(response.data);
@@ -47,8 +46,7 @@ const ResultEvents = (props) => {
     };
 
     // TODO show only part of search info
-    // TODO and show data on the chart
-    // also fix datetimes format here on in backend
+    // also fix datetimes format here or in backend
 
     return (
         <>
@@ -59,7 +57,7 @@ const ResultEvents = (props) => {
                     {Object.entries(search).map(([prop, propData], index) => {
                         if(prop !== "search_ptr" && prop !== "script") {
                             return ( 
-                                <li key={index+"_"+prop} class="flex py-1">{prop} : {propData}</li>
+                                <li key={index+"_"+prop} class="flex py-1">{propData}</li>
                             )
                         }
                     })}

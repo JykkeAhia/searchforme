@@ -7,21 +7,6 @@ import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
 import ResultPage from './pages/ResultPage';
 
-/* 
- 1. systeemin pääsivulla on seuraavia ominaisuuksia:
- - voi valita dropdown menusta minkä searchin haluaa käynnistää (nämä saadaan jotenkin kysyttyä API:sta)
- - valinnan jälkeen systeemi hakee haku formin luomista varten kyseisen searchin api endpointista options kutsulla parametrit formia varten
- - sitten luodaan formi em. perustuen (huomioidan pakolliset kentät ja parametrien tyypit)
- - haun description selventää millaisesta hausta on kyse??
- - haku voidaan asettaa heti käyntiin tai voidaan valita, että haku toteutetaan vaikka kerran tunnissa tms. 
- 2. toisella sivulla on tuloksia / tai samalla??
- - tulokset saadaan excel tyyppiseen taulukkoon (otetaan valmis komponentti/kirjasto tähän)
- - lisäksi voidaan dataa esittää kaaviona (jos kyseessä lista eventeistä jolloin saadaan aikaan sidottu historia)
- - samaan aikasidonnaiseen kaavioon voidaan asettaa useampia tallennettuja hakuja
- (later)
- xstate käyttöön
- joku state managementti context tai redux vai onko jo lumia?
-*/
 
 function App() {
   return (
@@ -35,8 +20,8 @@ function App() {
               <nav class="bg-gray-800">
                 <div class="flex max-w-7xl items-center justify-between p-2 lg:px-8">
                   <div class="lg:flex lg:gap-x-12">
-                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"><Link to="/">Home</Link></a>
-                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"><Link to="/search">Search</Link></a>
+                    <Link to="/" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Home</Link>
+                    <Link to="/search" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Search</Link>
                   </div>
                 </div>
               </nav>
