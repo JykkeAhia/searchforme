@@ -1,6 +1,7 @@
 
 import logging
 import json
+# import crontab
 from django.http import JsonResponse
 from django.apps import apps
 from django.db.models import Case, When, BooleanField
@@ -12,6 +13,8 @@ from rest_framework.views import APIView
 from search import serializers as our_serializers
 from search import searches
 from search import models
+from search.tasks import daily_search, hourly_search
+from celery import shared_task
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +24,27 @@ logger = logging.getLogger(__name__)
 # https://medium.com/bb-tutorials-and-thoughts/how-to-dockerize-java-rest-api-3d55ad36b914
 # TODO add decorator for timing searches
 # TODO for longer running searches https://pypi.org/project/django-eventstream/ maybe to inform frontend that we have results now
+
+
+@shared_task
+def schedule_daily_tasks():
+    logger.info("Scheduling daily tasks")
+    searches = models.Search.objects.filter(search_type="daily")
+    for search in searches:
+        search = models.Search.objects.get_subclass(id=search.id)
+        daily_search.delay(search.id)
+
+
+@shared_task
+def schedule_hourly_tasks():
+    logger.info("Scheduling hourly tasks")
+    searches = models.Search.objects.filter(search_type="hourly")
+    logger.info("Scheduling hourly tasks2")
+    for search in searches:
+        logger.info("Scheduling hourly tasks3")
+        search = models.Search.objects.get_subclass(id=search.id)
+        logger.info("Scheduling hourly tasks4")
+        hourly_search.delay(search.id)
 
 
 class SearchCarPriceView(viewsets.ModelViewSet):

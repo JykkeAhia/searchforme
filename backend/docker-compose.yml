@@ -29,36 +29,44 @@ services:
 #      - REACT_APP_BACKEND_URL=http://localhost:8000/api
       - WDS_SOCKET_HOST=0.0.0.0
       - WDS_SOCKET_PORT=0
-
-#  Later
-#  worker:
-#    container_name: celery
-    # restart: on-failure
+  worker:
+    container_name: celery-worker
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: celery -A backend.celery worker -B -l DEBUG ## celery -E -A searchforme.search worker -l DEBUG  ## celery -E -A searchforme.<appname> worker --loglevel=debug --logfile=/usr/src/app/celery.log
+    volumes:
+      - ./:/usr/src/app
+    environment:
+#      - DATABASE_URL=postgres://<dbuser>:<bdpass>@database:5432/<dbname>
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - DEBUG_LOG_LOCATION=/usr/src/app/debug.log
+      - ERROR_LOG_LOCATION=/usr/src/app/error.log
+      - DJANGO_SETTINGS_MODULE=backend.settings
+      - CELERY_CREATE_DIRS=1
+#      - DJANGO_SECRET_KEY=
+      - SELENIUM_WEBDRIVER_LOCATION=/usr/local/bin/chromedriver
+    depends_on:
+      - backend
+      - redis
+#      - database
+#  beat:
 #    build:
 #      context: .
 #      dockerfile: ./Dockerfile
-#    command: celery -E -A searchforme.<appnameTODO> worker -l DEBUG  ## celery -E -A searchforme.<appname> worker --loglevel=debug --logfile=/usr/src/app/celery.log
+#    command: celery -A backend beat -l info
 #    volumes:
 #      - ./:/usr/src/app
-#    environment:
-#      - DATABASE_URL=postgres://<dbuser>:<bdpass>@database:5432/<dbname>
-#      - CELERY_BROKER_URL=redis://redis:6379/4
-#      - CELERY_RESULT_BACKEND=redis://redis:6379/5
-#      - DEBUG_LOG_LOCATION=/usr/src/app/debug.log
-#      - ERROR_LOG_LOCATION=/usr/src/app/error.log
-#      - DJANGO_SETTINGS_MODULE=config.settings.local
-#      - CELERY_CREATE_DIRS=1
-#      - DJANGO_SECRET_KEY=
-#      - SELENIUM_WEBDRIVER_LOCATION=/usr/local/bin/chromedriver
 #    depends_on:
-#      - server
-#      - redis
-#      - database
-#  redis:
-#    container_name: redis
-#    image: redis:5.0.7
-#    expose:
-#      - "6379:6379"
+#      - backend
+#      - worker
+  redis:
+    container_name: redis-db
+    image: redis
+    expose:
+      - "6379:6379"
 
 #  database:
 #    container_name: postgres

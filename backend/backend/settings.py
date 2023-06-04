@@ -10,9 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import environ
+from celery.schedules import crontab
 from pathlib import Path
 
 env = environ.Env()
+
+DJANGO_SETTINGS_MODULE = 'backend.settings'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,6 +34,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Celery configuration
+CELERY_APP = 'backend.celery_app'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_BEAT_SCHEDULE = {
+    'run_daily_task': {
+        'task': 'search.views.schedule_daily_tasks',
+        'schedule': crontab(hour=0, minute=0),  # Schedule the task to run at midnight every day
+    },
+    'run_hourly_task': {
+        'task': 'search.views.schedule_hourly_tasks',
+        'schedule': crontab(minute=0),  # Schedule the task to run hourly 
+    },
+}
+
 
 # Application definition
 
@@ -45,6 +63,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'search',
     'model_utils',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
