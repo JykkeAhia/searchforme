@@ -35,3 +35,5 @@ do "docker compose up" do not detach so you can see console output of docker com
 
 7. If you like you can edit both backend and frontend files and save and services should update automatically
 
+8. Nice thing here is that you don't need to have correct version of anything. Only that you have working docker. 
+Note that since docker containers are linux based and the filesystems of container and host are linked by docker compose up. You should use wsl2 or real linux distro and run docker compose up there. 
