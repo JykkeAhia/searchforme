@@ -1,31 +1,8 @@
---- With docker in wsl2 or Linux environment
+--- Run normally in wsl2 environment or normal Linux distro
 Pre:
-Image has this versionm of Google Chrome 91.0.4472.114 should not be a problem
 
-https://chromedriver.storage.googleapis.com/index.html?path=114.0.5735.90/ is what we have in dev wsl2 
-
-So for dev reasons we will install chromedriver on backend root folder so we can use that 
-
-1. Dockerd must be running 
--> (in wsl2 window do sudo dockerd and leave it to show logs)
-
-1. build docker image in backend folder where there is Dockerfile present
-docker build -t "backend" .
-docker image ls 
--> should show the new image
-
-2. run the docker backend image
-docker run -p 8000:8000 backend
-
-3. Try to access at http://localhost:8000/api 
-or /admin -> admin:admin 
-
---- Or run normally in wsl2 environment
-Pre:
-Chrome maybe should be the same as in the container 
-
-1. install pip and python 3.8.10 
-2. in backend folder do pipenv shell 
+1. install pip and python 3.8.10 pipenv etc.
+2. do pipenv shell 
 3. pip install --upgrade -r ./requirements/base.txt
 4. python manage.py migrate
 5. python manage.py runserver 0.0.0.0:8000
@@ -33,9 +10,4 @@ Chrome maybe should be the same as in the container
 Try to access at http://localhost:8000/api 
 or /admin -> admin:admin 
 
---- TODO Or run the whole weirdness with docker compose
-1. install docker stuff 
-2. build all images backend and fronend (later java event sourcing)
-3. in the root of the cloned project do docker compose up
-This should run backend, fronend, (later java service), celery, redis and mayby some log monitoring NICE to have
-4. Go to http://localhost:3000 and try it out 
+

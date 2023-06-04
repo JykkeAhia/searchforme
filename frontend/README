@@ -1,11 +1,9 @@
-Frontti helppi
+Front end start without docker 
 
 Pre:
+Correct node - Node: v18.15.0
+
+Do:
 1. npm install 
+2. npm start 
 
-
-Käynnistys:
-1. npm start 
-
---- Docker
-1. Help is in backend folder and after building images you can run docker compose up use the README_DEMO as help
