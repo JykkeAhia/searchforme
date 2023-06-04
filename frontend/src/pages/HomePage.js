@@ -21,7 +21,9 @@ const HomePage = () => {
             <li class="flex py-1">TODO Celery for tasks</li>
             <li class="flex py-1">TODO Context or redux </li>
             <li class="flex py-1">TODO Java as and event sourcing service</li>
+            <li class="flex py-1">TODO EventStoreDB</li>
             <li class="flex py-1">TODO xstate for frontend</li>
+        
           </ul>
         </div>
       </div>
