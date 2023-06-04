@@ -9,7 +9,8 @@ COPY package-lock.json ./
 
 # If you are building your code for production
 # RUN npm ci --only=production
-# MOVED TO CMD so it will not be over run by dev host RUN npm install
+# MOVED TO CMD so it will not be over run by host copy in docker-compose dev
+# TODO later do build stage and dev to clarify
 
 COPY . .
 
@@ -19,6 +20,7 @@ COPY . .
 EXPOSE 3000
 
 # CMD [ "npm", "start" ]
-# OR mayby do npm intall in docker compose yml?
-# CMD /bin/bash -c 'npm install; npm start'
+# OR mayby do npm intall in docker compose yml
+# We do npm install here since this is a development use case and this 
+# will create node_modules and sync container and host since CMD is run when compose starts images to containers
 CMD npm install && npm start
