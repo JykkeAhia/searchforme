@@ -4,6 +4,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label } 
 // TODO different search datas need different kinda representation 
 // So search type should effect this in the future
 
+// TODO get multiple datasets from stateData
+
 const LineChartComponent = ({ stateData }) => {
   let yAxisTitle = null;
   if (stateData.length > 0) {
@@ -20,6 +22,14 @@ const LineChartComponent = ({ stateData }) => {
         value: parseInt(item.data["Vaihtoautojen määrä"])
       };
   });
+/*
+  const data2 = [
+    { time: 'Jan', value: 50 },
+    { time: 'Feb', value: 180 },
+    { time: 'Mar', value: 120 },  
+  ];
+  <Line type="monotone" dataKey="value" stroke="#8084d8" data={data2} />
+*/
   return (
       <LineChart 
         width={400} 
@@ -44,7 +54,8 @@ const LineChartComponent = ({ stateData }) => {
             />
           </YAxis>
           <Tooltip labelFormatter={() => yAxisTitle} />
-          <Line type="monotone" dataKey="value" stroke="#8884d8" />
+          <Line type="monotone" dataKey="value" stroke="#8884d8" data={data} />
+         
       </LineChart>
   );
 };

@@ -1,3 +1,5 @@
+FAST: in repo root run ./RUNME.sh will build and docker compose up the project
+
 The idea of this weird set of code is to demo different things for a job interview. It has no other purpose. 
 
 Docker is here used only for development enviroment - and mainly as an easy way to demo. 

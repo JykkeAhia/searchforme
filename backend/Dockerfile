@@ -23,4 +23,6 @@ RUN apt install nano
 # RUN python manage.py migrate
 
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Since this is dev env we do it this way to help demo users
+# TODO make dev and prod stages and use them in docker compose up
 CMD pip install --upgrade -r ./requirements/base.txt && python manage.py makemigrations --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000
